@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:clock_of_clocks/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_clock_helper/model.dart';
@@ -11,13 +12,10 @@ import 'package:intl/intl.dart';
 
 import 'containers/clock_mesh.dart';
 
-/// A basic analog clock.
-///
-/// You can do better than this!
 class Clock extends StatefulWidget {
-  const Clock(this.model);
-
   final ClockModel model;
+
+  const Clock(this.model);
 
   @override
   _ClockState createState() => _ClockState();
@@ -40,7 +38,7 @@ class _ClockState extends State<Clock> {
     _updateModel();
   }
 
-  @override
+@override
   void didUpdateWidget(Clock oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.model != oldWidget.model) {
@@ -48,7 +46,6 @@ class _ClockState extends State<Clock> {
       widget.model.addListener(_updateModel);
     }
   }
-
   @override
   void dispose() {
     _timer?.cancel();
@@ -56,13 +53,19 @@ class _ClockState extends State<Clock> {
     super.dispose();
   }
 
-  void _updateModel() {
-    setState(() {
-      _temperature = widget.model.temperatureString;
-      _temperatureRange = '(${widget.model.low} - ${widget.model.highString})';
-      _condition = widget.model.weatherString;
-      _location = widget.model.location;
-    });
+  @override
+  Widget build(BuildContext context) {
+    final time = DateFormat.Hms().format(DateTime.now());
+    return Semantics.fromProperties(
+      properties: SemanticsProperties(
+        label: 'Digital clock with time $time',
+        value: time,
+      ),
+      child: Container(
+        color: color(context, PaletteColor.backgroundColor),
+        child: ClockMesh(),
+      ),
+    );
   }
 
   void _updateTime() {
@@ -77,31 +80,12 @@ class _ClockState extends State<Clock> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final time = DateFormat.Hms().format(DateTime.now());
-    final weatherInfo = DefaultTextStyle(
-      style: TextStyle(color: Colors.black),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(_temperature),
-          Text(_temperatureRange),
-          Text(_condition),
-          Text(_location),
-        ],
-      ),
-    );
-
-    return Semantics.fromProperties(
-      properties: SemanticsProperties(
-        label: 'Analog clock with time $time',
-        value: time,
-      ),
-      child: Container(
-        color: Colors.white,
-					child: ClockMesh(),
-        ),
-    );
-  }
+  void _updateModel() {
+    setState(() {
+      _temperature = widget.model.temperatureString;
+      _temperatureRange = '(${widget.model.low} - ${widget.model.highString})';
+      _condition = widget.model.weatherString;
+      _location = widget.model.location;
+    });
+  } 
 }
