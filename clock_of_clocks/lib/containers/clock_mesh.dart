@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
+
+import '../components/analog_clock.dart';
 
 class ClockMesh extends StatefulWidget {
   @override
@@ -21,7 +22,6 @@ class _ClockMeshState extends State<ClockMesh> {
       child: Container(
         width: 525,
         height: 280,
-        color: Colors.black,
         child: GridView.count(
           scrollDirection: Axis.horizontal,
           crossAxisCount: 8,
@@ -35,14 +35,7 @@ class _ClockMeshState extends State<ClockMesh> {
     var widgetList = <Widget>[];
     for (var i = 0; i < 120; i++) {
       widgetList.add(
-        Container(
-          height: 35,
-          width: 35,
-          decoration: BoxDecoration(
-            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
-                .withOpacity(1.0),
-          ),
-        ),
+				AnalogClock(),
       );
     }
     return widgetList;
