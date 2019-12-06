@@ -62,7 +62,7 @@ class _ClockState extends State<Clock> {
         value: time,
       ),
       child: Container(
-        color: color(context, PaletteColor.backgroundColor),
+        color: themeBasedColor(context, PaletteColor.backgroundColor),
         child: ClockMesh(),
       ),
     );

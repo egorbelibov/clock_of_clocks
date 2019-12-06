@@ -20,7 +20,7 @@ final darkBackgroundColor = Color(0xFF000000);
 final darkPrimaryGradientColor = Color(0xFF000000);
 final darkSecondaryGradientColor = Color(0xFFFFFFFF);
 
-Color color(BuildContext context, PaletteColor color) {
+Color themeBasedColor(BuildContext context, PaletteColor color) {
   final isLightTheme = Theme.of(context).brightness == Brightness.light;
   switch (color) {
     case PaletteColor.primaryColor:

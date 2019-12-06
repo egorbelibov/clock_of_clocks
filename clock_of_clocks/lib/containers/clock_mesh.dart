@@ -1,6 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../components/analog_clock.dart';
+import '../components/clock_hand.dart';
+import '../models/analog_clock_model.dart';
+import '../models/clock_hand_model.dart';
 
 class ClockMesh extends StatefulWidget {
   @override
@@ -8,36 +13,70 @@ class ClockMesh extends StatefulWidget {
 }
 
 class _ClockMeshState extends State<ClockMesh> {
-  static double _deviceWidth;
-  static double _deviceHeight;
+  List<AnalogClockModel> _analogClocks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initializeValues();
+  }
 
   @override
   Widget build(BuildContext context) {
-    _deviceWidth = MediaQuery.of(context).size.width;
-    _deviceHeight = MediaQuery.of(context).size.height;
-    print(_deviceWidth);
-    print(_deviceHeight);
-
-    return Center(
-      child: Container(
-        width: 525,
-        height: 280,
-        child: GridView.count(
-          scrollDirection: Axis.horizontal,
-          crossAxisCount: 8,
-          children: renderSquares(),
+    return GestureDetector(
+      onTap: () {
+        _analogClocks[8] = AnalogClockModel(
+          clockHands: [
+            ClockHandModel(
+              angle: pi,
+            ),
+            ClockHandModel(
+              angle: pi * 2 / 3,
+            ),
+          ],
+        );
+        setState(() {
+          _analogClocks = _analogClocks;
+        });
+      },
+      child: Center(
+        child: Container(
+          width: 525,
+          height: 280,
+          child: GridView.count(
+            scrollDirection: Axis.horizontal,
+            crossAxisCount: 8,
+            children: renderClocks(),
+          ),
         ),
       ),
     );
   }
 
-  List<Widget> renderSquares() {
-    var widgetList = <Widget>[];
+  void initializeValues() {
     for (var i = 0; i < 120; i++) {
-      widgetList.add(
-				AnalogClock(),
+      _analogClocks.add(
+        AnalogClockModel(
+          clockHands: [
+            ClockHandModel(
+              angle: pi,
+            ),
+            ClockHandModel(
+              angle: pi / 2,
+            ),
+          ],
+        ),
       );
     }
-    return widgetList;
+  }
+
+  List<Widget> renderClocks() {
+    return _analogClocks.map((analogClock) {
+      return AnalogClock(
+        clockHands: analogClock.clockHands.map((clockHand) {
+          return ClockHand(color: clockHand.color, angle: clockHand.angle);
+        }).toList(),
+      );
+    }).toList();
   }
 }
