@@ -38,7 +38,7 @@ class _ClockState extends State<Clock> {
     _updateModel();
   }
 
-@override
+  @override
   void didUpdateWidget(Clock oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.model != oldWidget.model) {
@@ -46,6 +46,7 @@ class _ClockState extends State<Clock> {
       widget.model.addListener(_updateModel);
     }
   }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -87,5 +88,5 @@ class _ClockState extends State<Clock> {
       _condition = widget.model.weatherString;
       _location = widget.model.location;
     });
-  } 
+  }
 }

@@ -8,8 +8,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
   flutter_clock_helper:
     path: ../flutter_clock_helper
+
+  provider: ^3.2.0
 
 dev_dependencies:
   flutter_test:
