@@ -1,19 +1,26 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../components/analog_clock.dart';
 import '../components/clock_hand.dart';
 import '../models/analog_clock_model.dart';
-import '../models/clock_hand_model.dart';
+import '../state/clock_state.dart';
 
+/// An 8x15 Mesh / Grid of Analog Clocks
+///
+/// This Mesh has a fixed size of [containerWidth] x [containerHeight]
+/// so as to fit the target device (*Lenovo Smart Clock*). Although it's
+/// fixed, it is possible to change it with the [MediaQuery] helpers.
+/// Changing the size of this mesh will automatically resize its children.
 class ClockMesh extends StatefulWidget {
   @override
   _ClockMeshState createState() => _ClockMeshState();
 }
 
 class _ClockMeshState extends State<ClockMesh> {
-  List<AnalogClockModel> _analogClocks = [];
+  final double _containerWidth = 525;
+  final double _containerHeight = 280;
+  List<AnalogClockModel> _analogClockData = [];
 
   @override
   void initState() {
@@ -21,60 +28,41 @@ class _ClockMeshState extends State<ClockMesh> {
     initializeValues();
   }
 
+  void initializeValues() {
+    var clockState = Provider.of<ClockState>(context, listen: false);
+    _analogClockData = clockState?.analogClockData;
+    clockState.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _analogClocks[8] = AnalogClockModel(
-          clockHands: [
-            ClockHandModel(
-              angle: pi,
-            ),
-            ClockHandModel(
-              angle: pi * 2 / 3,
-            ),
-          ],
-        );
-        setState(() {
-          _analogClocks = _analogClocks;
-        });
-      },
-      child: Center(
-        child: Container(
-          width: 525,
-          height: 280,
-          child: GridView.count(
-            scrollDirection: Axis.horizontal,
-            crossAxisCount: 8,
-            children: renderClocks(),
-          ),
-        ),
+    return Center(
+      child: Container(
+        width: _containerWidth,
+        height: _containerHeight,
+        child: renderGridView(),
       ),
     );
   }
 
-  void initializeValues() {
-    for (var i = 0; i < 120; i++) {
-      _analogClocks.add(
-        AnalogClockModel(
-          clockHands: [
-            ClockHandModel(
-              angle: pi,
-            ),
-            ClockHandModel(
-              angle: pi / 2,
-            ),
-          ],
-        ),
-      );
-    }
+  Widget renderGridView() {
+    return GridView.count(
+      scrollDirection: Axis.horizontal,
+      crossAxisCount: 8,
+      children: renderClocks(),
+    );
   }
 
   List<Widget> renderClocks() {
-    return _analogClocks.map((analogClock) {
+    return _analogClockData.map((analogClockData) {
       return AnalogClock(
-        clockHands: analogClock.clockHands.map((clockHand) {
-          return ClockHand(color: clockHand.color, angle: clockHand.angle);
+        id: analogClockData.id,
+        clockHands: analogClockData.clockHands.map((clockHand) {
+          return ClockHand(
+            id: clockHand.id,
+            color: clockHand.color,
+            angle: clockHand.angle,
+          );
         }).toList(),
       );
     }).toList();

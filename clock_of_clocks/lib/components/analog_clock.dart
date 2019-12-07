@@ -5,9 +5,11 @@ import '../styles/gradients.dart';
 import 'clock_hand.dart';
 
 class AnalogClock extends StatelessWidget {
+	final int id;
   final List<ClockHand> clockHands;
 
   AnalogClock({
+		@required this.id,
     @required this.clockHands,
   }) : assert(clockHands != null);
 

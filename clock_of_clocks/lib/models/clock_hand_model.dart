@@ -1,11 +1,13 @@
 import 'package:flutter/widgets.dart';
 
 class ClockHandModel {
-  Color color;
+	final int id;
   double angle;
+  Color color;
 
   ClockHandModel({
-    this.color,
+		@required this.id,
     @required this.angle,
+    this.color,
   }) : assert(angle != null);
 }
