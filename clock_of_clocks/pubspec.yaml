@@ -12,7 +12,7 @@ dependencies:
   flutter_clock_helper:
     path: ../flutter_clock_helper
 
-  provider: ^3.2.0
+  property_change_notifier: ^0.1.5
 
 dev_dependencies:
   flutter_test:

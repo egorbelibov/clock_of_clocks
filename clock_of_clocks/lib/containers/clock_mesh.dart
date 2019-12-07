@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
 
 import '../components/analog_clock.dart';
 import '../models/analog_clock_model.dart';
@@ -22,6 +22,8 @@ class ClockMesh extends StatefulWidget {
 class _ClockMeshState extends State<ClockMesh> {
   final double _containerWidth = 525;
   final double _containerHeight = 280;
+
+  ClockState clockState;
   List<AnalogClockModel> _analogClockData = [];
 
   @override
@@ -31,7 +33,10 @@ class _ClockMeshState extends State<ClockMesh> {
   }
 
   void initializeValues() {
-    var clockState = Provider.of<ClockState>(context, listen: false);
+    clockState = PropertyChangeProvider.of<ClockState>(
+      context,
+      listen: false,
+    ).value;
     _analogClockData = clockState?.analogClockData;
   }
 
@@ -50,8 +55,8 @@ class _ClockMeshState extends State<ClockMesh> {
   Widget renderGridView() {
     return GestureDetector(
       onTap: () {
-        Provider.of<ClockState>(context).updateSingleClock(
-          id: 0,
+        clockState.updateSingleClock(
+          id: Random().nextInt(119),
           clockHands: [
             ClockHandModel(
               id: 0,

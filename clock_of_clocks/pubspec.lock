@@ -88,13 +88,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0+1"
-  provider:
+  property_change_notifier:
     dependency: "direct main"
     description:
-      name: provider
+      name: property_change_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.0"
+    version: "0.1.5"
   quiver:
     dependency: transitive
     description:
