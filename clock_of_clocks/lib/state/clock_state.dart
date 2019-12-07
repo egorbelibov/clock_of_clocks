@@ -1,13 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
 
 import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
 
 /// Is responsible for initializing, updating and notifying
 /// listening widgets about [analogClockData] changes.
-class ClockState with ChangeNotifier {
+class ClockState extends PropertyChangeNotifier<int> {
   final int amountOfClocks = 120;
 
   /// Holds the state of all the analog clocks
@@ -37,12 +38,12 @@ class ClockState with ChangeNotifier {
     List<ClockHandModel> clockHands,
     bool notifyChanges = true,
   }) {
-		assert(id != null);
+    assert(id != null);
     analogClockData[id] = AnalogClockModel(
       id: id,
       clockHands: clockHands,
     );
-    if (notifyChanges) notifyListeners();
+    notifyListeners(id);
   }
 
   void updateMultipleClocks({

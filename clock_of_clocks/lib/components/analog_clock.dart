@@ -1,8 +1,8 @@
-import 'package:clock_of_clocks/models/clock_hand_model.dart';
-import 'package:clock_of_clocks/state/clock_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
 
+import '../models/clock_hand_model.dart';
+import '../state/clock_state.dart';
 import '../styles/colors.dart';
 import '../styles/gradients.dart';
 import 'clock_hand.dart';
@@ -20,17 +20,18 @@ class AnalogClock extends StatefulWidget {
 
 class _AnalogClockState extends State<AnalogClock> {
   List<ClockHandModel> clockHandsData = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  ClockState clockState;
 
   @override
   Widget build(BuildContext context) {
-    var clockState = Provider.of<ClockState>(context, listen: true);
-		print('${widget.id}: here');
+    clockState = PropertyChangeProvider.of<ClockState>(
+      context,
+      listen: true,
+      properties: [widget.id],
+    ).value;
     clockHandsData = clockState?.analogClockData[widget.id].clockHands;
+    print('${widget.id}');
+
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
