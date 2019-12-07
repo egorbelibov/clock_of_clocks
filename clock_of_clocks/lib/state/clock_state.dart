@@ -22,7 +22,7 @@ class ClockState with ChangeNotifier {
     for (var i = 0; i < amountOfClocks; i++) {
       analogClockData.add(
         AnalogClockModel(
-					id: i,
+          id: i,
           clockHands: [
             ClockHandModel(id: 0, angle: pi),
             ClockHandModel(id: 1, angle: pi / 2),
@@ -34,24 +34,26 @@ class ClockState with ChangeNotifier {
 
   void updateSingleClock({
     @required int id,
-    double nextAngle,
-    Color nextColor,
-    bool notifyChanges = false,
+    List<ClockHandModel> clockHands,
+    bool notifyChanges = true,
   }) {
 		assert(id != null);
-	}
+    analogClockData[id] = AnalogClockModel(
+      id: id,
+      clockHands: clockHands,
+    );
+    if (notifyChanges) notifyListeners();
+  }
 
-	void updateMultipleClocks({
-		@required List<AnalogClockModel> clockData,
-
-	}) {}
+  void updateMultipleClocks({
+    @required List<AnalogClockModel> clockData,
+  }) {}
 
   void updateClockGroup({
     @required List<int> ids,
-    double nextAngle,
-    Color nextColor,
-    bool notifyChanges = false,
+    List<ClockHandModel> clockHands,
+    bool notifyChanges = true,
   }) {
-		assert(ids != null);
-	}
+    assert(ids != null);
+  }
 }

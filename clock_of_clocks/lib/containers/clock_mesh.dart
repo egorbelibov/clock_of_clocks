@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/analog_clock.dart';
-import '../components/clock_hand.dart';
 import '../models/analog_clock_model.dart';
+import '../models/clock_hand_model.dart';
 import '../state/clock_state.dart';
 
 /// An 8x15 Mesh / Grid of Analog Clocks
@@ -31,11 +33,11 @@ class _ClockMeshState extends State<ClockMesh> {
   void initializeValues() {
     var clockState = Provider.of<ClockState>(context, listen: false);
     _analogClockData = clockState?.analogClockData;
-    clockState.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('ClockMesh');
     return Center(
       child: Container(
         width: _containerWidth,
@@ -46,10 +48,34 @@ class _ClockMeshState extends State<ClockMesh> {
   }
 
   Widget renderGridView() {
-    return GridView.count(
-      scrollDirection: Axis.horizontal,
-      crossAxisCount: 8,
-      children: renderClocks(),
+    return GestureDetector(
+      onTap: () {
+        Provider.of<ClockState>(context).updateSingleClock(
+          id: 0,
+          clockHands: [
+            ClockHandModel(
+              id: 0,
+              angle: 2 * pi,
+              color: Colors.blue,
+            ),
+            ClockHandModel(
+              id: 1,
+              angle: pi,
+              color: Colors.red,
+            ),
+            ClockHandModel(
+              id: 2,
+              angle: pi / 2,
+              color: Colors.purple,
+            ),
+          ],
+        );
+      },
+      child: GridView.count(
+        scrollDirection: Axis.horizontal,
+        crossAxisCount: 8,
+        children: renderClocks(),
+      ),
     );
   }
 
@@ -57,13 +83,6 @@ class _ClockMeshState extends State<ClockMesh> {
     return _analogClockData.map((analogClockData) {
       return AnalogClock(
         id: analogClockData.id,
-        clockHands: analogClockData.clockHands.map((clockHand) {
-          return ClockHand(
-            id: clockHand.id,
-            color: clockHand.color,
-            angle: clockHand.angle,
-          );
-        }).toList(),
       );
     }).toList();
   }
