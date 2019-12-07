@@ -1,20 +1,36 @@
+import 'package:clock_of_clocks/models/clock_hand_model.dart';
+import 'package:clock_of_clocks/state/clock_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../styles/colors.dart';
 import '../styles/gradients.dart';
 import 'clock_hand.dart';
 
-class AnalogClock extends StatelessWidget {
-	final int id;
-  final List<ClockHand> clockHands;
+class AnalogClock extends StatefulWidget {
+  final int id;
 
   AnalogClock({
-		@required this.id,
-    @required this.clockHands,
-  }) : assert(clockHands != null);
+    @required this.id,
+  });
+
+  @override
+  _AnalogClockState createState() => _AnalogClockState();
+}
+
+class _AnalogClockState extends State<AnalogClock> {
+  List<ClockHandModel> clockHandsData = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var clockState = Provider.of<ClockState>(context, listen: true);
+		print('${widget.id}: here');
+    clockHandsData = clockState?.analogClockData[widget.id].clockHands;
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -31,17 +47,24 @@ class AnalogClock extends StatelessWidget {
   }
 
   List<Widget> renderClockHands(BuildContext context) {
-    return clockHands.map((item) {
-      return renderClockHand(context, item);
+    return clockHandsData.map((clockHandData) {
+      return renderClockHand(context, clockHandData);
     }).toList();
   }
 
-  Widget renderClockHand(BuildContext context, ClockHand clockHand) {
+  Widget renderClockHand(BuildContext context, ClockHandModel clockHandData) {
     // print(clockHand.angle);
     return Transform.rotate(
       alignment: Alignment.center,
-      angle: clockHand.angle,
-      child: Align(alignment: Alignment.centerRight, child: clockHand),
+      angle: clockHandData.angle,
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: ClockHand(
+          id: clockHandData.id,
+          angle: clockHandData.angle,
+          color: clockHandData.color,
+        ),
+      ),
     );
   }
 }
