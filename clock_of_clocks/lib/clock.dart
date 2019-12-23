@@ -80,7 +80,6 @@ class _ClockState extends State<Clock> {
 	}
 
 	void _updateTime() {
-		// setState(() {
 		_now = DateTime.now();
 		// Update once per second. Make sure to do it at the beginning of each
 		// new second, so that the clock is accurate.
@@ -88,7 +87,7 @@ class _ClockState extends State<Clock> {
 			Duration(seconds: 1) - Duration(milliseconds: _now.millisecond),
 			_updateTime,
 		);
-		// });
+		// TODO: notify whoever needs to be notified (about the time change)
 	}
 
 	void _updateModel() {
