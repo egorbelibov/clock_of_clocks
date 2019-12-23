@@ -2,62 +2,50 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:async';
-
+import 'package:clock_of_clocks/state/clock_state.dart';
 import 'package:clock_of_clocks/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
 
 import 'containers/clock_mesh.dart';
 
-class Clock extends StatefulWidget {
+class Clock extends StatelessWidget {
   final ClockModel model;
 
   const Clock(this.model);
 
   @override
-  _ClockState createState() => _ClockState();
-}
-
-class _ClockState extends State<Clock> {
-  var _now = DateTime.now();
-  var _temperature = '';
-  var _temperatureRange = '';
-  var _condition = '';
-  var _location = '';
-  Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    widget.model.addListener(_updateModel);
-    // Set the initial values.
-    _updateTime();
-    _updateModel();
-  }
-
-  @override
-  void didUpdateWidget(Clock oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.model != oldWidget.model) {
-      oldWidget.model.removeListener(_updateModel);
-      widget.model.addListener(_updateModel);
-    }
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    widget.model.removeListener(_updateModel);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    // Not Mandatory. It's here just to ensure the right orientation is used.
     setPreferredOrientations();
+
+    // Set model listener - contains info [temperature].
+    model.addListener(() => _updateModel(context));
+    _updateModel(context);
+
+    // Build Clock.
+    return renderWidget(context);
+  }
+
+  void setPreferredOrientations() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  }
+
+  void _updateModel(BuildContext context) {
+    PropertyChangeProvider.of<ClockState>(
+      context,
+      listen: false,
+    ).value.updateModel(model);
+  }
+
+  Widget renderWidget(BuildContext context) {
     final time = DateFormat.Hms().format(DateTime.now());
     return Semantics.fromProperties(
       properties: SemanticsProperties(
@@ -66,36 +54,8 @@ class _ClockState extends State<Clock> {
       ),
       child: Container(
         color: themeBasedColor(context, PaletteColor.backgroundColor),
-        child: ClockMesh(),
+        child: ClockMesh(), // ClockMesh of analog clocks
       ),
     );
-  }
-
-  void setPreferredOrientations() {
-    // Set Preferred Orientations to Landscape
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-  }
-
-  void _updateTime() {
-    _now = DateTime.now();
-    // Update once per second. Make sure to do it at the beginning of each
-    // new second, so that the clock is accurate.
-    _timer = Timer(
-      Duration(seconds: 1) - Duration(milliseconds: _now.millisecond),
-      _updateTime,
-    );
-    // TODO: notify whoever needs to be notified (about the time change)
-  }
-
-  void _updateModel() {
-    setState(() {
-      _temperature = widget.model.temperatureString;
-      _temperatureRange = '(${widget.model.low} - ${widget.model.highString})';
-      _condition = widget.model.weatherString;
-      _location = widget.model.location;
-    });
   }
 }
