@@ -7,7 +7,7 @@ import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
 
 /// Is responsible for initializing, updating and notifying
-/// listening widgets about [analogClockModels] changes.
+/// all listening widgets about [analogClockModels] changes.
 class ClockState extends PropertyChangeNotifier<String> {
   final int amountOfClocks = 120;
 
