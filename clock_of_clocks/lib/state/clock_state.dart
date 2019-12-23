@@ -35,6 +35,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     initializeClockState();
   }
 
+  /// Recursivelly updates local time.
   void _updateTime() {
     _currentTime = DateTime.now();
     // Update once per second. Make sure to do it at the beginning of each
@@ -46,7 +47,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     // TODO: determine who has to be notified
   }
 
-  /// Update 
+  /// Updates local variables based on [clockModel].
   void updateModel(ClockModel clockModel) {
     temperature = clockModel.temperatureString;
     temperatureRange = '(${clockModel.low} - ${clockModel.highString})';
@@ -55,7 +56,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     // TODO: Notify corresponding widgets
   }
 
-  /// Generate initial state data for [analogClockModels].
+  /// Generates initial state data for [analogClockModels].
   void initializeClockState() {
     for (var i = 0; i < amountOfClocks; i++) {
       analogClockModels.add(
@@ -70,7 +71,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     }
   }
 
-  /// Update [clockHands] for the clock with corresponding [id].
+  /// Updates [clockHands] for the clock with corresponding [id].
   void updateSingleClock({
     @required int id,
     @required List<ClockHandModel> clockHands,
@@ -83,7 +84,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     if (notifyChanges) notifyListeners(id.toString());
   }
 
-  /// Update [clockHands] for all the clocks with corresponding [ids].
+  /// Updates [clockHands] for all the clocks with corresponding [ids].
   void updateMultipleClocks({
     @required List<int> ids,
     @required List<ClockHandModel> clockHands,
@@ -98,7 +99,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     });
   }
 
-  /// Update [analogClockModels] with each [clockModel] inside [clockGroup].
+  /// Updates [analogClockModels] with each [clockModel] inside [clockGroup].
   void updateClockGroup({
     @required List<AnalogClockModel> clockGroup,
     bool notifyChanges = true,
