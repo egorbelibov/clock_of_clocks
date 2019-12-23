@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 import '../components/analog_clock.dart';
 import '../models/analog_clock_model.dart';
-import '../models/clock_hand_model.dart';
 import '../state/clock_state.dart';
 
 /// An 8x15 Mesh / Grid of Analog Clocks
@@ -37,12 +34,11 @@ class _ClockMeshState extends State<ClockMesh> {
       context,
       listen: false,
     ).value;
-    _analogClockData = clockState?.analogClockData;
+    _analogClockData = clockState?.analogClockModels;
   }
 
   @override
   Widget build(BuildContext context) {
-    print('ClockMesh');
     return Center(
       child: Container(
         width: _containerWidth,

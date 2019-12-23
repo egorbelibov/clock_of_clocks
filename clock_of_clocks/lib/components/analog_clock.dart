@@ -27,9 +27,9 @@ class _AnalogClockState extends State<AnalogClock> {
     clockState = PropertyChangeProvider.of<ClockState>(
       context,
       listen: true,
-      properties: [widget.id],
+      properties: [widget.id.toString()],
     ).value;
-    clockHandsData = clockState?.analogClockData[widget.id].clockHands;
+    clockHandsData = clockState?.analogClockModels[widget.id].clockHands;
     print('${widget.id}');
 
     return Container(
