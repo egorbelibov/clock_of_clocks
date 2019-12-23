@@ -4,10 +4,10 @@ import 'clock_hand_model.dart';
 
 class AnalogClockModel {
 	final int id;
-  List<ClockHandModel> clockHands;
+	List<ClockHandModel> clockHands;
 
-  AnalogClockModel({
+	AnalogClockModel({
 		@required this.id,
-    @required this.clockHands,
-  }) : assert(clockHands != null);
+		@required this.clockHands,
+	}) : assert(clockHands != null);
 }

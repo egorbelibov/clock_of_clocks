@@ -14,23 +14,23 @@ import 'clock.dart';
 import 'state/clock_state.dart';
 
 void main() {
-  // A temporary measure until Platform supports web and TargetPlatform supports
-  // macOS.
-  // TODO(gspencergoog): Update this when TargetPlatform includes macOS.
-  if (!kIsWeb && Platform.isMacOS) {
-    // https://github.com/flutter/flutter/issues/31366
-    // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override.
-    debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  }
+	// A temporary measure until Platform supports web and TargetPlatform supports
+	// macOS.
+	// TODO(gspencergoog): Update this when TargetPlatform includes macOS.
+	if (!kIsWeb && Platform.isMacOS) {
+		// https://github.com/flutter/flutter/issues/31366
+		// See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override.
+		debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+	}
 
-  runApp(
-    PropertyChangeProvider<ClockState>(
-      value: ClockState(),
-      child: ClockCustomizer(
-        (ClockModel model) {
-          return Clock(model);
-        },
-      ),
-    ),
-  );
+	runApp(
+		PropertyChangeProvider<ClockState>(
+			value: ClockState(),
+			child: ClockCustomizer(
+				(ClockModel model) {
+					return Clock(model);
+				},
+			),
+		),
+	);
 }

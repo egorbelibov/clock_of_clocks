@@ -53,34 +53,10 @@ class _ClockMeshState extends State<ClockMesh> {
   }
 
   Widget renderGridView() {
-    return GestureDetector(
-      onTap: () {
-        clockState.updateSingleClock(
-          id: Random().nextInt(119),
-          clockHands: [
-            ClockHandModel(
-              id: 0,
-              angle: 2 * pi,
-              color: Colors.blue,
-            ),
-            ClockHandModel(
-              id: 1,
-              angle: pi,
-              color: Colors.red,
-            ),
-            ClockHandModel(
-              id: 2,
-              angle: pi / 2,
-              color: Colors.purple,
-            ),
-          ],
-        );
-      },
-      child: GridView.count(
-        scrollDirection: Axis.horizontal,
-        crossAxisCount: 8,
-        children: renderClocks(),
-      ),
+    return GridView.count(
+      scrollDirection: Axis.horizontal,
+      crossAxisCount: 8,
+      children: renderClocks(),
     );
   }
 
