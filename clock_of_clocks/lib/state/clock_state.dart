@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clock_helper/model.dart';
@@ -8,31 +9,62 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
 
-/// Shouldn't be changed!
+/// Represents the total amount of analog clocks drawn on screen.
 ///
-/// Responsible for the total amount of analog clocks
-/// drawn on screen.
+/// IMPORTANT: Shouldn't be changed! (Unless you know what you're doing).
 const int amountOfClocks = 120;
 
-/// Holds Global State for the clock
+/// Represents the total amount of digits displayed on screen.
+///
+/// IMPORTANT: Shouldn't be changed! (Unless you know what you're doing).
+const int amountOfDigits = 4;
+
+/// Holds Global State for the clock.
 ///
 /// Is responsible for initializing, updating and notifying
 /// all listening widgets about [analogClockModels] changes.
 class ClockState extends PropertyChangeNotifier<String> {
-  /// DateTime updated each second by
+  /// Accurate representation of current time.
+  ///
+  /// It's updated periodically by [_updateTime()].
   DateTime _currentTime;
+
+  /// Digit values representing current time.
+  ///
+  /// Its amount is based on [amountOfDigits].
+  /// [0, 1] represent hour digits.
+  /// [2, 3] represent minute digits.
+  List<int> digits = List(amountOfDigits);
+
+  // TODO: Add bool here: displayDigits OR something similar.
+
+  // Group of Variables updated by ClockModel.
+  var is24HourFormat = true;
   var temperature = '';
   var temperatureRange = '';
   var condition = '';
   var location = '';
 
   /// Holds the state of all the analog clocks.
-  final List<AnalogClockModel> analogClockModels = [];
+  final List<AnalogClockModel> analogClockModels = List(amountOfClocks);
 
   ClockState() {
     // Initialize time.
     _updateTime();
-    initializeClockState();
+    _initializeClockState();
+  }
+
+  /// Generates initial state data for [analogClockModels].
+  void _initializeClockState() {
+    for (var i = 0; i < amountOfClocks; i++) {
+      analogClockModels[i] = AnalogClockModel(
+        id: i,
+        clockHands: [
+          ClockHandModel(id: 0, angle: pi / 2),
+          ClockHandModel(id: 1, angle: 2 * pi),
+        ],
+      );
+    }
   }
 
   /// Recursivelly updates local time.
@@ -44,31 +76,49 @@ class ClockState extends PropertyChangeNotifier<String> {
       Duration(seconds: 1) - Duration(milliseconds: _currentTime.millisecond),
       _updateTime,
     );
-    // TODO: determine who has to be notified
+
+    // TODO: Notify analog clock in charge of second to second animation.
+
+    List<int> newDigits = _breakdownCurrentTime();
+    _notifyNewTime(newDigits);
+  }
+
+  /// Breaksdown current time into 4 digit values.
+  ///
+  /// Formats hour to correct type (based on [is24HourFormat]).
+  /// Then, determines, stores and returns the corresponding digits ([newDigits]).
+  List<int> _breakdownCurrentTime() {
+    var formattedHour = double.parse(
+      DateFormat(
+        is24HourFormat ? 'HH' : 'hh',
+      ).format(_currentTime),
+    );
+
+    List<int> newDigits = List(amountOfDigits);
+    newDigits[0] = (formattedHour / 10).floor(); // First Hour Digit.
+    newDigits[1] = (formattedHour % 10).floor(); // Second Hour Digit.
+    newDigits[2] = (_currentTime.minute / 10).floor(); // First Minute Digit.
+    newDigits[3] = _currentTime.minute % 10; // Second Minute Digit.
+    return newDigits;
+  }
+
+  void _notifyNewTime(List<int> newDigits) {
+    for (var i = 0; i < amountOfDigits; i++) {
+      if (newDigits[i] != digits[i]) {
+        digits[i] = newDigits[i];
+        print('notify [$i] digit');
+      }
+    }
   }
 
   /// Updates local variables based on [clockModel].
   void updateModel(ClockModel clockModel) {
+    is24HourFormat = clockModel.is24HourFormat;
     temperature = clockModel.temperatureString;
     temperatureRange = '(${clockModel.low} - ${clockModel.highString})';
     condition = clockModel.weatherString;
     location = clockModel.location;
-    // TODO: Notify corresponding widgets
-  }
-
-  /// Generates initial state data for [analogClockModels].
-  void initializeClockState() {
-    for (var i = 0; i < amountOfClocks; i++) {
-      analogClockModels.add(
-        AnalogClockModel(
-          id: i,
-          clockHands: [
-            ClockHandModel(id: 0, angle: pi / 2),
-            ClockHandModel(id: 1, angle: 2 * pi),
-          ],
-        ),
-      );
-    }
+    // TODO: Notify corresponding widgets.
   }
 
   /// Updates [clockHands] for the clock with corresponding [id].
