@@ -1,22 +1,22 @@
 import 'dart:async';
-import 'dart:math';
-import 'package:intl/intl.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clock_helper/model.dart';
+import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
+import 'clock_arrangements.dart';
 
 /// Represents the total amount of analog clocks drawn on screen.
 ///
-/// IMPORTANT: Shouldn't be changed! (Unless you know what you're doing).
+/// IMPORTANT: Shouldn't be changed! (Unless you know what you're doing 😀).
 const int amountOfClocks = 120;
 
 /// Represents the total amount of digits displayed on screen.
 ///
-/// IMPORTANT: Shouldn't be changed! (Unless you know what you're doing).
+/// IMPORTANT: Shouldn't be changed! (Unless you know what you're doing 😀).
 const int amountOfDigits = 4;
 
 /// Holds Global State for the clock.
@@ -31,7 +31,7 @@ class ClockState extends PropertyChangeNotifier<String> {
 
   /// Digit values representing current time.
   ///
-  /// Its amount is based on [amountOfDigits].
+  /// Its size is based on [amountOfDigits].
   /// [0, 1] represent hour digits.
   /// [2, 3] represent minute digits.
   List<int> digits = List(amountOfDigits);
@@ -46,7 +46,7 @@ class ClockState extends PropertyChangeNotifier<String> {
   var location = '';
 
   /// Holds the state of all the analog clocks.
-  final List<AnalogClockModel> analogClockModels = List(amountOfClocks);
+  List<AnalogClockModel> analogClockModels = List(amountOfClocks);
 
   ClockState() {
     // Initialize time.
@@ -56,15 +56,7 @@ class ClockState extends PropertyChangeNotifier<String> {
 
   /// Generates initial state data for [analogClockModels].
   void _initializeClockState() {
-    for (var i = 0; i < amountOfClocks; i++) {
-      analogClockModels[i] = AnalogClockModel(
-        id: i,
-        clockHands: [
-          ClockHandModel(id: 0, angle: pi / 2),
-          ClockHandModel(id: 1, angle: 2 * pi),
-        ],
-      );
-    }
+    analogClockModels = clockArrangements[ClockArrangement.defaultArrangement];
   }
 
   /// Recursivelly updates local time.
@@ -107,6 +99,8 @@ class ClockState extends PropertyChangeNotifier<String> {
       if (newDigits[i] != digits[i]) {
         digits[i] = newDigits[i];
         print('notify [$i] digit');
+        // TODO: create helper function to getDigitArrangements in [AnalogClockModel]'s.
+        // TODO: update and notify the updated model listeners.
       }
     }
   }
