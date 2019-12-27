@@ -58,9 +58,11 @@ class _ClockMeshState extends State<ClockMesh> {
 
   List<Widget> renderClocks() {
     return _analogClockData.map((analogClockData) {
-      return AnalogClock(
-        id: analogClockData.id,
-      );
+      if (analogClockData == null) {
+        return Container();
+      } else {
+        return AnalogClock(id: analogClockData.id);
+      }
     }).toList();
   }
 }
