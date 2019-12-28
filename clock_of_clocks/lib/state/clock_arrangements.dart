@@ -37,7 +37,7 @@ final Map<ClockArrangement, List<AnalogClockModel>> clockArrangements = {
       ClockGroup(102, 104, ClockHandArrangement.w_e),
       ClockGroup(105, 105, ClockHandArrangement.s_w_corner),
       ClockGroup(106, 109, ClockHandArrangement.n_s),
-      ClockGroup(110, 111, ClockHandArrangement.n_w_corner),
+      ClockGroup(110, 110, ClockHandArrangement.n_w_corner),
       ClockGroup(111, 111, ClockHandArrangement.w_e),
       ClockGroup(112, 112, ClockHandArrangement.s_w_corner),
       ClockGroup(113, 118, ClockHandArrangement.n_s),

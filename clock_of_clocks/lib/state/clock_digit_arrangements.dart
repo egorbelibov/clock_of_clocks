@@ -102,6 +102,8 @@ final Map<int, List<AnalogClockModel>> clockDigitArrangements = {
       ClockGroup(14, 14, ClockHandArrangement.n_e_corner),
       ClockGroup(15, 16, ClockHandArrangement.w_e),
       ClockGroup(17, 17, ClockHandArrangement.s_w_corner),
+      ClockGroup(18, 21, ClockHandArrangement.n_s),
+      ClockGroup(22, 22, ClockHandArrangement.n_w_corner),
       ClockGroup(23, 23, ClockHandArrangement.w_e),
     ],
   ),
