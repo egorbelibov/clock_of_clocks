@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../helpers/clock_digit_arranger.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
@@ -49,9 +50,10 @@ class ClockState extends PropertyChangeNotifier<String> {
   List<AnalogClockModel> analogClockModels = List(amountOfClocks);
 
   ClockState() {
-    // Initialize time.
-    _updateTime();
     _initializeClockState();
+
+    // Initializes _currentTime & notifies related widgets.
+    _updateTime();
   }
 
   /// Generates initial state data for [analogClockModels].
@@ -99,8 +101,11 @@ class ClockState extends PropertyChangeNotifier<String> {
       if (newDigits[i] != digits[i]) {
         digits[i] = newDigits[i];
         print('notify [$i] digit');
-        // TODO: create helper function to getDigitArrangements in [AnalogClockModel]'s.
-        // TODO: update and notify the updated model listeners.
+        List<AnalogClockModel> digitClocks = arrangeClockDigit(
+          digitIndex: i,
+          digit: digits[i],
+        );
+        updateClockGroup(clockGroup: digitClocks);
       }
     }
   }
@@ -123,6 +128,7 @@ class ClockState extends PropertyChangeNotifier<String> {
   }) {
     assert(id != null);
     assert(clockHands != null);
+    assert(analogClockModels[id] != null);
 
     analogClockModels[id].clockHands = clockHands;
     if (notifyChanges) notifyListeners(id.toString());
@@ -138,6 +144,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     assert(clockHands != null);
 
     ids.forEach((id) {
+      assert(analogClockModels[id] != null);
       analogClockModels[id].clockHands = clockHands;
       if (notifyChanges) notifyListeners(id.toString());
     });
@@ -149,7 +156,9 @@ class ClockState extends PropertyChangeNotifier<String> {
     bool notifyChanges = true,
   }) {
     assert(clockGroup != null);
+
     clockGroup.forEach((clockModel) {
+      assert(analogClockModels[clockModel.id] != null);
       analogClockModels[clockModel.id].clockHands = clockModel.clockHands;
       if (notifyChanges) notifyListeners(clockModel.id.toString());
     });
