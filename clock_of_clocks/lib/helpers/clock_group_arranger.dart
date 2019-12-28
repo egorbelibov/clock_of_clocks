@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../models/analog_clock_model.dart';
 import '../state/clock_hand_arrangements.dart';
-import '../state/clock_state.dart' show amountOfClocks;
 
 /// Clock Group of [ClockHandArrangement]'s.
 ///
@@ -24,13 +23,15 @@ List<AnalogClockModel> arrangeClockGroups({
 }) {
   assert(clockGroups != null);
 
-  List<AnalogClockModel> arrangedClocks = List(amountOfClocks);
+  List<AnalogClockModel> arrangedClocks = [];
   clockGroups.forEach(
     (clockGroup) {
       for (var i = clockGroup.first; i <= clockGroup.last; i++) {
-        arrangedClocks[i] = AnalogClockModel(
-          id: i,
-          clockHands: clockHandArrangements[clockGroup.arrangement],
+        arrangedClocks.add(
+          AnalogClockModel(
+            id: i,
+            clockHands: clockHandArrangements[clockGroup.arrangement],
+          ),
         );
       }
     },
