@@ -40,6 +40,10 @@ import '../models/clock_hand_model.dart';
 ///   - [s_se], [s_sw], [s_ne], [s_nw].
 ///   - [w_se], [w_sw], [w_ne], [w_nw].
 ///   - [n_se], [n_sw], [n_ne], [n_nw].
+///
+/// * Empty space (normally, inside digits where some of the clocks
+///  aren't used to represent part of the digit).
+///   - [emptySpace]
 enum ClockHandArrangement {
   e,
   s,
@@ -75,6 +79,7 @@ enum ClockHandArrangement {
   n_sw,
   n_ne,
   n_nw,
+  emptySpace,
 }
 
 /// Map of Direction [ClockHandArrangement]'s and their correspondent [ClockHandModel]'s.
@@ -194,7 +199,7 @@ final Map<ClockHandArrangement, List<ClockHandModel>> clockHandArrangements = {
   ],
   ClockHandArrangement.s_nw: [
     ClockHandModel(id: 0, angle: directionAngles[Direction.south]),
-    ClockHandModel(id: 1, angle: directionAngles[Direction.northEast]),
+    ClockHandModel(id: 1, angle: directionAngles[Direction.northWest]),
   ],
   // w_..
   ClockHandArrangement.w_se: [
@@ -229,5 +234,11 @@ final Map<ClockHandArrangement, List<ClockHandModel>> clockHandArrangements = {
   ClockHandArrangement.n_nw: [
     ClockHandModel(id: 0, angle: directionAngles[Direction.north]),
     ClockHandModel(id: 1, angle: directionAngles[Direction.northWest]),
+  ],
+
+  // Empty Space:
+  ClockHandArrangement.emptySpace: [
+    ClockHandModel(id: 0, angle: directionAngles[Direction.west]),
+    ClockHandModel(id: 1, angle: directionAngles[Direction.west]),
   ],
 };
