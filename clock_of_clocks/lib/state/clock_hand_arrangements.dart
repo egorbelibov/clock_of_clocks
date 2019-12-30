@@ -44,6 +44,9 @@ import '../models/clock_hand_model.dart';
 /// * Empty space (normally, inside digits where some of the clocks
 ///  aren't used to represent part of the digit).
 ///   - [emptySpace]
+/// 
+/// * Surrounding space (normally, above and bellow the digit).  
+///   - [surroundingSpace]
 enum ClockHandArrangement {
   e,
   s,
@@ -80,6 +83,7 @@ enum ClockHandArrangement {
   n_ne,
   n_nw,
   emptySpace,
+  surroundingSpace,
 }
 
 /// Map of Direction [ClockHandArrangement]'s and their correspondent [ClockHandModel]'s.
@@ -241,4 +245,10 @@ final Map<ClockHandArrangement, List<ClockHandModel>> clockHandArrangements = {
     ClockHandModel(id: 0, angle: directionAngles[Direction.west]),
     ClockHandModel(id: 1, angle: directionAngles[Direction.west]),
   ],
+
+  // Surrounding Space:
+  ClockHandArrangement.surroundingSpace: [
+    ClockHandModel(id: 0, angle: directionAngles[Direction.west]),
+    ClockHandModel(id: 1, angle: directionAngles[Direction.east]),
+  ]
 };
