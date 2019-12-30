@@ -40,7 +40,7 @@ List<AnalogClockModel> arrangeClockDigit({
 
   // Assigns a list of [ClockModel]'s arranged based on the provided [digit].
   List<AnalogClockModel> digitClockArrangements = List.from(
-    clockDigitArrangements[digit],
+    arrangedClockDigits[digit],
     growable: false,
   );
   assert(digitClockArrangements.length == amountOfClocksInDigit);
