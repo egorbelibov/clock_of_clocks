@@ -30,7 +30,9 @@ List<AnalogClockModel> arrangeClockGroups({
         arrangedClocks.add(
           AnalogClockModel(
             id: i,
-            clockHands: clockHandArrangements[clockGroup.arrangement],
+            clockHands: List.from(
+              clockHandArrangements[clockGroup.arrangement],
+            ),
           ),
         );
       }
