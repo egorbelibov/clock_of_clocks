@@ -21,20 +21,20 @@ class _ClockMeshState extends State<ClockMesh> {
   final double _containerHeight = 280;
 
   ClockState clockState;
-  List<AnalogClockModel> _analogClockData = [];
+  List<AnalogClockModel> _analogClocks = [];
 
   @override
   void initState() {
     super.initState();
-    initializeValues();
+    _initializeValues();
   }
 
-  void initializeValues() {
+  void _initializeValues() {
     clockState = PropertyChangeProvider.of<ClockState>(
       context,
       listen: false,
     ).value;
-    _analogClockData = clockState?.analogClockModels;
+    _analogClocks = clockState?.analogClockModels;
   }
 
   @override
@@ -43,26 +43,25 @@ class _ClockMeshState extends State<ClockMesh> {
       child: Container(
         width: _containerWidth,
         height: _containerHeight,
-        child: renderGridView(),
+        child: _renderGridView(),
       ),
     );
   }
 
-  Widget renderGridView() {
+  Widget _renderGridView() {
     return GridView.count(
       scrollDirection: Axis.horizontal,
       crossAxisCount: 8,
-      children: renderClocks(),
+      children: _renderClocks(),
     );
   }
 
-  List<Widget> renderClocks() {
-    return _analogClockData.map((analogClockData) {
-      if (analogClockData == null) {
-        return Container();
-      } else {
-        return AnalogClock(id: analogClockData.id);
-      }
+  List<Widget> _renderClocks() {
+    return _analogClocks.map((analogClockData) {
+      // Safety check (shouldn't happen).
+      return analogClockData == null 
+          ? Container()
+          : AnalogClock(id: analogClockData.id);
     }).toList();
   }
 }

@@ -13,16 +13,24 @@ class AnalogClockModel {
   })  : assert(id != null),
         assert(clockHands != null);
 
-  /// Copies instance of [AnalogClockModel] with a [color] for [clockHands].
+  /// Copies instance of [AnalogClockModel] with a [newColor] for [clockHands].
   ///
   /// Makes a copy of the calling instance of [AnalogClockModel].
   /// Then, iterates through every [ClockHandModel] in [clockHands] and creates,
-  /// for each, a new instance with the provided [color].
-  AnalogClockModel copyWith({Color color}) {
+  /// for each, a new instance with the provided params (if provided).
+  AnalogClockModel copyWith({
+    Color newColor,
+    Curve newAnimationCurve,
+    Duration newAnimationDuration,
+  }) {
     return AnalogClockModel(
       id: id,
       clockHands: clockHands.map((clockHandModel) {
-        return clockHandModel.copyWith(color: color);
+        return clockHandModel.copyWith(
+          newColor: newColor,
+          newAnimationCurve: newAnimationCurve,
+          newAnimationDuration: newAnimationDuration,
+        );
       }).toList(),
     );
   }

@@ -18,7 +18,7 @@ class ClockHand extends StatelessWidget {
     return FractionallySizedBox(
       // TODO: Experiment with other widthFactor vls - like 0.5 and 0.6
       widthFactor: 0.55,
-      heightFactor: 0.12,
+      heightFactor: 0.13,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 1000),
         decoration: BoxDecoration(

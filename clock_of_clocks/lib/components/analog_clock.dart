@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
+import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
 import '../state/clock_state.dart';
 import '../styles/colors.dart';
@@ -19,19 +20,13 @@ class AnalogClock extends StatefulWidget {
 }
 
 class _AnalogClockState extends State<AnalogClock> {
-  List<ClockHandModel> clockHandsData = [];
-  ClockState clockState;
+  AnalogClockModel analogClock;
+  List<ClockHandModel> clockHands = [];
 
   @override
   Widget build(BuildContext context) {
-    clockState = PropertyChangeProvider.of<ClockState>(
-      context,
-      listen: true,
-      properties: [widget.id.toString()],
-    ).value;
-    clockHandsData = clockState?.analogClockModels[widget.id].clockHands;
     print('${widget.id}');
-
+    _updateClockState();
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -42,29 +37,52 @@ class _AnalogClockState extends State<AnalogClock> {
         gradient: primaryGradient(context),
       ),
       child: Stack(
-        children: renderClockHands(context),
+        children: _renderClockHands(context),
       ),
     );
   }
 
-  List<Widget> renderClockHands(BuildContext context) {
-    return clockHandsData.map((clockHandData) {
-      return renderClockHand(context, clockHandData);
+  void _updateClockState() {
+    // Subscribes to changes from [ClockState] & only listens to [widget.id].
+    analogClock = PropertyChangeProvider.of<ClockState>(
+      context,
+      listen: true,
+      properties: [widget.id.toString()],
+    ).value?.analogClockModels[widget.id];
+    assert(analogClock != null);
+
+    clockHands = analogClock?.clockHands;
+    assert(clockHands != null);
+  }
+
+  List<Widget> _renderClockHands(BuildContext context) {
+    return clockHands.map((hand) {
+      assert(hand != null);
+      return _renderClockHand(context, hand);
     }).toList();
   }
 
-  Widget renderClockHand(BuildContext context, ClockHandModel clockHandData) {
-    return Transform.rotate(
-      alignment: Alignment.center,
-      angle: clockHandData.angle,
+  Widget _renderClockHand(BuildContext context, ClockHandModel handModel) {
+    final angleTween = Tween<double>(begin: 0, end: handModel.angle);
+    return TweenAnimationBuilder(
+      curve: handModel.animationCurve,
+      duration: handModel.animationDuration,
+      tween: angleTween,
       child: Align(
         alignment: Alignment.centerRight,
         child: ClockHand(
-          id: clockHandData.id,
-          angle: clockHandData.angle,
-          color: clockHandData.color,
+          id: handModel.id,
+          angle: handModel.angle,
+          color: handModel.color,
         ),
       ),
+      builder: (_, angle, child) {
+        return Transform.rotate(
+          alignment: Alignment.center,
+          angle: angle,
+          child: child,
+        );
+      },
     );
   }
 }

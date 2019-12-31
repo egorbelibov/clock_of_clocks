@@ -52,9 +52,10 @@ class ClockState extends PropertyChangeNotifier<String> {
 
   ClockState() {
     _initializeClockState();
-
-    // First call initializes _currentTime & notifies related widgets.
-    _updateTime();
+    Future.delayed(Duration(milliseconds: 2000), () {
+      // First call initializes _currentTime & notifies related widgets.
+      _updateTime();
+    });
   }
 
   /// Generates initial state data for [analogClockModels].
