@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import '../helpers/clock_digit_arranger.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
+import '../helpers/clock_digit_arranger.dart';
+import '../helpers/clock_digit_manipulator.dart';
 import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
 import 'clock_arrangements.dart';
@@ -52,13 +53,15 @@ class ClockState extends PropertyChangeNotifier<String> {
   ClockState() {
     _initializeClockState();
 
-    // Initializes _currentTime & notifies related widgets.
+    // First call initializes _currentTime & notifies related widgets.
     _updateTime();
   }
 
   /// Generates initial state data for [analogClockModels].
   void _initializeClockState() {
-    analogClockModels = clockArrangements[ClockArrangement.defaultArrangement];
+    analogClockModels = List.from(
+      clockArrangements[ClockArrangement.defaultArrangement],
+    );
   }
 
   /// Recursivelly updates local time.
@@ -74,7 +77,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     // TODO: Notify analog clock in charge of second to second animation.
 
     List<int> newDigits = _breakdownCurrentTime();
-    _notifyNewTime(newDigits);
+    _updateDigits(newDigits);
   }
 
   /// Breaksdown current time into 4 digit values.
@@ -96,15 +99,22 @@ class ClockState extends PropertyChangeNotifier<String> {
     return newDigits;
   }
 
-  void _notifyNewTime(List<int> newDigits) {
+  /// Determines if there are new [digits] and updates them accordingly.
+  ///
+  /// The new [digits] are arranged into [digitClocks] and modified when appropriate.
+  /// Ultimately, the arranged [digitClocks] are passed down to [updateClockGroup].
+  void _updateDigits(List<int> newDigits) {
     for (var i = 0; i < amountOfDigits; i++) {
       if (newDigits[i] != digits[i]) {
         digits[i] = newDigits[i];
-        print('notify [$i] digit');
+        print('Should notify digit: [$i]');
         List<AnalogClockModel> digitClocks = arrangeClockDigit(
           digitIndex: i,
           digit: digits[i],
         );
+
+        // Emphasize the First Hour Digit (0th digit overall)
+        if (i == 0) colourDigit(digit: digits[i], digitClocks: digitClocks);
         updateClockGroup(clockGroup: digitClocks);
       }
     }
