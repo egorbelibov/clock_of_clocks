@@ -12,4 +12,13 @@ class ClockHandModel {
     this.color,
   })  : assert(id != null),
         assert(angle != null);
+
+  /// Copies instance of [ClockHandModel] with a different [color].
+  ClockHandModel copyWith({Color color}) {
+    return ClockHandModel(
+      id: id,
+      angle: angle,
+      color: color,
+    );
+  }
 }
