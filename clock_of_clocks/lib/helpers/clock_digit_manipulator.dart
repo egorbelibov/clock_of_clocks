@@ -23,7 +23,7 @@ void colourDigit({
   // Iterates over all clock indexes in [digitClocks].
   for (var i = 0; i < amountOfClocksInDigit; i++) {
     if (!digitsToExclude.contains(i)) {
-      digitClocks[i] = digitClocks[i].copyWith(color: color);
+      digitClocks[i] = digitClocks[i].copyWith(newColor: color);
     }
   }
 }
