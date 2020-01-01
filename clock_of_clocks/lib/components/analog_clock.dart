@@ -1,3 +1,4 @@
+import 'package:clock_of_clocks/helpers/cardinal_directions.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 

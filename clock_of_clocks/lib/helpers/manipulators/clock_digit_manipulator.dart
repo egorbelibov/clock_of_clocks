@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-import '../models/analog_clock_model.dart';
-import '../state/clock_digit_arrangements.dart';
-import '../state/clock_hand_arrangements.dart';
-import '../styles/colors.dart' show lightTertiaryColor;
-import 'clock_digit_arranger.dart' show amountOfClocksInDigit;
-import 'clock_group_arranger.dart';
+import '../../models/analog_clock_model.dart';
+import '../../state/arrangements/clock_digit_arrangements.dart';
+import '../../state/arrangements/clock_hand_arrangements.dart';
+import '../../styles/colors.dart' show lightTertiaryColor;
+import '../arrangers/clock_digit_arranger.dart' show amountOfClocksInDigit;
+import '../arrangers/clock_group_arranger.dart';
 
 /// Updates the [Color] of the [digit]'s clock hands.
 ///
@@ -23,7 +23,7 @@ void colourDigit({
   // Iterates over all clock indexes in [digitClocks].
   for (var i = 0; i < amountOfClocksInDigit; i++) {
     if (!digitsToExclude.contains(i)) {
-      digitClocks[i] = digitClocks[i].copyWith(newColor: color);
+      digitClocks[i] = digitClocks[i].copyWith(handsNewColor: color);
     }
   }
 }

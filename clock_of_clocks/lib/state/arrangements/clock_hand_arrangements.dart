@@ -1,5 +1,5 @@
-import '../helpers/cardinal_directions.dart';
-import '../models/clock_hand_model.dart';
+import '../../helpers/cardinal_directions.dart';
+import '../../models/clock_hand_model.dart';
 
 /// Arrangement of Clock Hand Cardinal and Intercardinal Directions (🧭).
 ///
@@ -44,8 +44,8 @@ import '../models/clock_hand_model.dart';
 /// * Empty space (normally, inside digits where some of the clocks
 ///  aren't used to represent part of the digit).
 ///   - [emptySpace]
-/// 
-/// * Surrounding space (normally, above and bellow the digit).  
+///
+/// * Surrounding space (normally, above and bellow the digit).
 ///   - [surroundingSpace]
 enum ClockHandArrangement {
   e,
@@ -86,7 +86,6 @@ enum ClockHandArrangement {
   surroundingSpace,
 }
 
-/// Map of Direction [ClockHandArrangement]'s and their correspondent [ClockHandModel]'s.
 final Map<ClockHandArrangement, List<ClockHandModel>> clockHandArrangements = {
   // Stacked (Cardinal) states:
   ClockHandArrangement.e: [
