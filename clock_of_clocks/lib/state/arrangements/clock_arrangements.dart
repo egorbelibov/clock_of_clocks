@@ -1,15 +1,19 @@
-import '../helpers/clock_group_arranger.dart';
-import '../models/analog_clock_model.dart';
+import '../../helpers/arrangers/clock_group_arranger.dart';
+import '../../models/analog_clock_model.dart';
 import 'clock_hand_arrangements.dart' show ClockHandArrangement;
 
+/// Arrangement of an entire clock mesh.
+///
+/// Represents the states in which the clock hands can be in:
+///
+/// * [defaultArrangement]: Loop inside a loop effect.
+/// 
+/// **NOTE**: These arrangements don't cover digit representation, but they
+/// could have a certain arrangement which reflects a certain time.
 enum ClockArrangement {
   defaultArrangement,
 }
 
-/// Represents various clock mesh arrangements.
-///
-/// NOTE: These arrangements don't cover digit representation, but they
-/// could have a certain arrangement which reflects a certain time.
 final Map<ClockArrangement, List<AnalogClockModel>> clockArrangements = {
   ClockArrangement.defaultArrangement: arrangeClockGroups(
     clockGroups: const [

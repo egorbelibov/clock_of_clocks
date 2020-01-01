@@ -1,5 +1,5 @@
-import '../helpers/clock_group_arranger.dart';
-import '../models/analog_clock_model.dart';
+import '../../helpers/arrangers/clock_group_arranger.dart';
+import '../../models/analog_clock_model.dart';
 import 'clock_hand_arrangements.dart' show ClockHandArrangement;
 
 /// Holds an arranged list of [AnalogClockModel]'s for all 10 digits (0-9).

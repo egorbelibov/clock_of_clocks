@@ -1,5 +1,11 @@
 import 'package:flutter/widgets.dart';
 
+/// Default Animation Curve for a [ClockHandModel].
+const defaultCurve = Curves.elasticOut;
+
+/// Default Animation Duration for a [ClockHandModel].
+const defaultDuration = Duration(milliseconds: 3000);
+
 /// Represents a model of an actual [ClockHand] widget.
 class ClockHandModel {
   final int id;
@@ -12,8 +18,8 @@ class ClockHandModel {
     @required this.id,
     @required this.angle,
     this.color,
-    this.animationCurve = Curves.elasticOut,
-    this.animationDuration = const Duration(milliseconds: 3000),
+    this.animationCurve = defaultCurve,
+    this.animationDuration = defaultDuration,
   })  : assert(id != null),
         assert(angle != null);
 

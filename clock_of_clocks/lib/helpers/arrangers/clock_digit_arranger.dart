@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import '../models/analog_clock_model.dart';
-import '../state/clock_digit_arrangements.dart';
-import '../state/clock_state.dart' show amountOfDigits;
+import '../../models/analog_clock_model.dart';
+import '../../state/arrangements/clock_digit_arrangements.dart';
+import '../../state/clock_state.dart' show amountOfDigits;
 
 /// Represents the amount of clocks in a digit section.
 /// TODO: show image url representing this (graphic representation).

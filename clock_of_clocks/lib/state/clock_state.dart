@@ -2,14 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clock_helper/model.dart';
-import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-import '../helpers/clock_digit_arranger.dart';
-import '../helpers/clock_digit_manipulator.dart';
+import '../helpers/arrangers/clock_digit_arranger.dart';
+import '../helpers/manipulators/clock_digit_manipulator.dart';
+import '../helpers/transformers/time_transformer.dart';
 import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
-import 'clock_arrangements.dart';
+import 'arrangements/clock_arrangements.dart';
+import 'arrangements/clock_bit_arrangements.dart';
 
 /// Represents the total amount of analog clocks drawn on screen.
 ///
@@ -38,14 +39,11 @@ class ClockState extends PropertyChangeNotifier<String> {
   /// [2, 3] represent minute digits.
   List<int> digits = List(amountOfDigits);
 
-  // TODO: Add bool here: displayDigits OR something similar.
+  ///
+  List<int> midColumnValues = List();
 
-  // Group of Variables updated by ClockModel.
+  // Updated by ClockModel.
   var is24HourFormat = true;
-  var temperature = '';
-  var temperatureRange = '';
-  var condition = '';
-  var location = '';
 
   /// Holds the state of all the analog clocks.
   List<AnalogClockModel> analogClockModels = List(amountOfClocks);
@@ -54,7 +52,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     _initializeClockState();
     Future.delayed(Duration(milliseconds: 2000), () {
       // First call initializes _currentTime & notifies related widgets.
-      _updateTime();
+      _initializeTime();
     });
   }
 
@@ -63,6 +61,12 @@ class ClockState extends PropertyChangeNotifier<String> {
     analogClockModels = List.from(
       clockArrangements[ClockArrangement.defaultArrangement],
     );
+  }
+
+  void _initializeTime() {
+    // TODO: do something with bitArrangements || put this into a separate helper function.
+    var bitArrangements = clockBitArrangements[ClockBitArrangement.midBit];
+    _updateTime();
   }
 
   /// Recursivelly updates local time.
@@ -75,29 +79,12 @@ class ClockState extends PropertyChangeNotifier<String> {
       _updateTime,
     );
 
-    // TODO: Notify analog clock in charge of second to second animation.
-
-    List<int> newDigits = _breakdownCurrentTime();
-    _updateDigits(newDigits);
-  }
-
-  /// Breaksdown current time into 4 digit values.
-  ///
-  /// Formats hour to correct type (based on [is24HourFormat]).
-  /// Then, determines, stores and returns the corresponding digits ([newDigits]).
-  List<int> _breakdownCurrentTime() {
-    var formattedHour = double.parse(
-      DateFormat(
-        is24HourFormat ? 'HH' : 'hh',
-      ).format(_currentTime),
+    List<int> newDigits = breakdownTimeIntoDigits(
+      is24HourFormat: is24HourFormat,
+      time: _currentTime,
     );
 
-    List<int> newDigits = List(amountOfDigits);
-    newDigits[0] = (formattedHour / 10).floor(); // First Hour Digit.
-    newDigits[1] = (formattedHour % 10).floor(); // Second Hour Digit.
-    newDigits[2] = (_currentTime.minute / 10).floor(); // First Minute Digit.
-    newDigits[3] = _currentTime.minute % 10; // Second Minute Digit.
-    return newDigits;
+    _updateDigits(newDigits);
   }
 
   /// Determines if there are new [digits] and updates them accordingly.
@@ -108,7 +95,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     for (var i = 0; i < amountOfDigits; i++) {
       if (newDigits[i] != digits[i]) {
         digits[i] = newDigits[i];
-        print('Should notify digit: [$i]');
+
         List<AnalogClockModel> digitClocks = arrangeClockDigit(
           digitIndex: i,
           digit: digits[i],
@@ -116,6 +103,7 @@ class ClockState extends PropertyChangeNotifier<String> {
 
         // Emphasize the First Hour Digit (0th digit overall)
         if (i == 0) colourDigit(digit: digits[i], digitClocks: digitClocks);
+
         updateClockGroup(clockGroup: digitClocks);
       }
     }
@@ -124,11 +112,6 @@ class ClockState extends PropertyChangeNotifier<String> {
   /// Updates local variables based on [clockModel].
   void updateModel(ClockModel clockModel) {
     is24HourFormat = clockModel.is24HourFormat;
-    temperature = clockModel.temperatureString;
-    temperatureRange = '(${clockModel.low} - ${clockModel.highString})';
-    condition = clockModel.weatherString;
-    location = clockModel.location;
-    // TODO: Notify corresponding widgets.
   }
 
   /// Updates [clockHands] for the clock with corresponding [id].
@@ -142,6 +125,7 @@ class ClockState extends PropertyChangeNotifier<String> {
     assert(analogClockModels[id] != null);
 
     analogClockModels[id].clockHands = clockHands;
+
     if (notifyChanges) notifyListeners(id.toString());
   }
 
