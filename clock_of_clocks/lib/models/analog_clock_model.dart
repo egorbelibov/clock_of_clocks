@@ -7,8 +7,8 @@ class AnalogClockModel {
   int id;
   List<ClockHandModel> clockHands;
 
-  /// Identifies the clock's function.
-  final String label;
+  /// Discloses the clock function.
+  String label;
 
   AnalogClockModel({
     @required this.id,
@@ -24,15 +24,19 @@ class AnalogClockModel {
   /// for each, a new instance with the provided params (if provided).
   AnalogClockModel copyWith({
     String newLabel,
+    double handsNewAngle,
     Color handsNewColor,
     Curve handsNewAnimationCurve,
     Duration handsNewAnimationDuration,
+    List<ClockHandModel> newClockHands,
   }) {
+    var handModels = newClockHands ?? clockHands;
     return AnalogClockModel(
       id: id,
       label: newLabel ?? label,
-      clockHands: clockHands.map((clockHandModel) {
+      clockHands: handModels.map((clockHandModel) {
         return clockHandModel.copyWith(
+          newAngle: handsNewAngle,
           newColor: handsNewColor,
           newAnimationCurve: handsNewAnimationCurve,
           newAnimationDuration: handsNewAnimationDuration,

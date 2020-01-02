@@ -1,5 +1,6 @@
 import '../../helpers/cardinal_directions.dart';
 import '../../models/clock_hand_model.dart';
+import '../../styles/colors.dart';
 
 /// Arrangement of Clock Hand Cardinal and Intercardinal Directions (🧭).
 ///
@@ -239,13 +240,21 @@ final Map<ClockHandArrangement, List<ClockHandModel>> clockHandArrangements = {
     ClockHandModel(id: 1, angle: directionAngles[Direction.northWest]),
   ],
 
-  // Empty Space:
+  // Empty Space states:
   ClockHandArrangement.emptySpace: [
-    ClockHandModel(id: 0, angle: directionAngles[Direction.west]),
-    ClockHandModel(id: 1, angle: directionAngles[Direction.west]),
+    ClockHandModel(
+      id: 0,
+      angle: directionAngles[Direction.west],
+      color: emptySpaceHandColor,
+    ),
+    ClockHandModel(
+      id: 1,
+      angle: directionAngles[Direction.west],
+      color: emptySpaceHandColor,
+    ),
   ],
 
-  // Surrounding Space:
+  // Surrounding Space states:
   ClockHandArrangement.surroundingSpace: [
     ClockHandModel(id: 0, angle: directionAngles[Direction.west]),
     ClockHandModel(id: 1, angle: directionAngles[Direction.east]),

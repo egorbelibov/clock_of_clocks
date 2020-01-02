@@ -23,15 +23,16 @@ class ClockHandModel {
   })  : assert(id != null),
         assert(angle != null);
 
-  /// Copies instance of [ClockHandModel] with a new params (if provided).
+  /// Copies instance of [ClockHandModel] with new params (if provided).
   ClockHandModel copyWith({
+    double newAngle,
     Color newColor,
     Curve newAnimationCurve,
     Duration newAnimationDuration,
   }) {
     return ClockHandModel(
       id: id,
-      angle: angle,
+      angle: newAngle ?? angle,
       color: newColor ?? color,
       animationCurve: newAnimationCurve ?? animationCurve,
       animationDuration: newAnimationDuration ?? animationDuration,
