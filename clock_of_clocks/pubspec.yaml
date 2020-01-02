@@ -3,13 +3,16 @@ description: Digital clock made of Analog clocks.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.3.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  
   flutter_clock_helper:
     path: ../flutter_clock_helper
+
+  property_change_notifier: ^0.2.0
 
 dev_dependencies:
   flutter_test:
