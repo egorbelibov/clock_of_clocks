@@ -21,17 +21,17 @@ class Clock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Not Mandatory. It's here just to ensure the right orientation is used.
-    _setPreferredOrientations();
+    setPreferredOrientations();
 
     // Set model listener - contains info [temperature].
     model.addListener(() => _updateModel(context));
     _updateModel(context);
 
     // Build Clock.
-    return _renderWidget(context);
+    return renderWidget(context);
   }
 
-  void _setPreferredOrientations() {
+  void setPreferredOrientations() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -45,7 +45,7 @@ class Clock extends StatelessWidget {
     ).value.updateModel(model);
   }
 
-  Widget _renderWidget(BuildContext context) {
+  Widget renderWidget(BuildContext context) {
     final time = DateFormat.Hms().format(DateTime.now());
     return Semantics.fromProperties(
       properties: SemanticsProperties(

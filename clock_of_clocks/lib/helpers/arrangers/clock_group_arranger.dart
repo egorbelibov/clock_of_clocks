@@ -19,18 +19,20 @@ class ClockGroup {
   final String label;
 
   /// Group of custom & optional parameters the group clockHands.
-  final Color handColor;
-  final Curve animationCurve;
-  final Duration animationDuration;
+  final Color handsColor;
+  final double handsAngle;
+  final Curve handsAnimationCurve;
+  final Duration handsAnimationDuration;
 
   const ClockGroup(
     this.first,
     this.last,
     this.arrangement, {
     this.label,
-    this.handColor,
-    this.animationCurve,
-    this.animationDuration,
+    this.handsAngle,
+    this.handsColor,
+    this.handsAnimationCurve,
+    this.handsAnimationDuration,
   });
 
   /// Assesses if any custom params have been provided.
@@ -38,9 +40,10 @@ class ClockGroup {
   /// **NOTE**: [label], although a custom param, is not included since
   /// it's part of the [AnalogClockModel], not of [ClockHandModel].
   bool _holdsCustomClockHandParams() {
-    return handColor != null ||
-        animationCurve != null ||
-        animationDuration != null;
+    return handsAngle != null ||
+        handsColor != null ||
+        handsAnimationCurve != null ||
+        handsAnimationDuration != null;
   }
 }
 
@@ -83,9 +86,11 @@ List<ClockHandModel> _updateClockHands(
 
   return clockHands.map((clockHandModel) {
     return clockHandModel.copyWith(
-      newColor: clockGroup.handColor,
-      newAnimationCurve: clockGroup.animationCurve ?? defaultCurve,
-      newAnimationDuration: clockGroup.animationDuration ?? defaultDuration,
+      newAngle: clockGroup.handsAngle,
+      newColor: clockGroup.handsColor,
+      newAnimationCurve: clockGroup.handsAnimationCurve ?? defaultCurve,
+      newAnimationDuration:
+          clockGroup.handsAnimationDuration ?? defaultDuration,
     );
   }).toList();
 }

@@ -1,4 +1,3 @@
-import 'package:clock_of_clocks/helpers/cardinal_directions.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
@@ -8,6 +7,7 @@ import '../state/clock_state.dart';
 import '../styles/colors.dart';
 import '../styles/gradients.dart';
 import 'clock_hand.dart';
+import 'clock_label.dart';
 
 class AnalogClock extends StatefulWidget {
   final int id;
@@ -26,19 +26,23 @@ class _AnalogClockState extends State<AnalogClock> {
 
   @override
   Widget build(BuildContext context) {
-    print('${widget.id}');
     _updateClockState();
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
           color: themeBasedColor(context, PaletteColor.secondaryColor),
-          width: 1, // TODO: Check if this is ideal (compare with 0)
+          width: 1,
         ),
         gradient: primaryGradient(context),
       ),
       child: Stack(
-        children: _renderClockHands(context),
+        children: [
+          analogClock?.label != null
+              ? ClockLabel(analogClock.label)
+              : Container(),
+          ..._renderClockHands(context),
+        ],
       ),
     );
   }
@@ -49,7 +53,7 @@ class _AnalogClockState extends State<AnalogClock> {
       context,
       listen: true,
       properties: [widget.id.toString()],
-    ).value?.analogClockModels[widget.id];
+    ).value?.clockMeshModels[widget.id];
     assert(analogClock != null);
 
     clockHands = analogClock?.clockHands;

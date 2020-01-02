@@ -5,21 +5,17 @@ import '../components/analog_clock.dart';
 import '../models/analog_clock_model.dart';
 import '../state/clock_state.dart';
 
-/// An 8x15 Mesh / Grid of Analog Clocks
+/// An 8x15 Mesh (Grid) of Analog Clocks
 ///
-/// This Mesh has a fixed size of [containerWidth] x [containerHeight]
-/// so as to fit the target device (*Lenovo Smart Clock*). Although it's
-/// fixed, it is possible to change it with the [MediaQuery] helpers.
-/// Changing the size of this mesh will automatically resize its children.
+/// The size of the [ClockMesh] is determined by the device height.
+/// As a result, this might not fit into some device screens.
+/// When it doesn't you can provide a custom height for your device.
 class ClockMesh extends StatefulWidget {
   @override
   _ClockMeshState createState() => _ClockMeshState();
 }
 
 class _ClockMeshState extends State<ClockMesh> {
-  final double _containerWidth = 525;
-  final double _containerHeight = 280;
-
   ClockState clockState;
   List<AnalogClockModel> _analogClocks = [];
 
@@ -34,15 +30,14 @@ class _ClockMeshState extends State<ClockMesh> {
       context,
       listen: false,
     ).value;
-    _analogClocks = clockState?.analogClockModels;
+    _analogClocks = clockState?.clockMeshModels;
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: _containerWidth,
-        height: _containerHeight,
+        height: MediaQuery.of(context).size.height * 0.8,
         child: _renderGridView(),
       ),
     );
@@ -50,6 +45,7 @@ class _ClockMeshState extends State<ClockMesh> {
 
   Widget _renderGridView() {
     return GridView.count(
+      shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       crossAxisCount: 8,
       children: _renderClocks(),
@@ -59,7 +55,7 @@ class _ClockMeshState extends State<ClockMesh> {
   List<Widget> _renderClocks() {
     return _analogClocks.map((analogClockData) {
       // Safety check (shouldn't happen).
-      return analogClockData == null 
+      return analogClockData == null
           ? Container()
           : AnalogClock(id: analogClockData.id);
     }).toList();

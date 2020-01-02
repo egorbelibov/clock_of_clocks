@@ -5,7 +5,9 @@ import '../../state/arrangements/clock_digit_arrangements.dart';
 import '../../state/clock_state.dart' show amountOfDigits;
 
 /// Represents the amount of clocks in a digit section.
-/// TODO: show image url representing this (graphic representation).
+///
+/// Image of the 24 clock grid representing a digit: 
+/// https://drive.google.com/open?id=1Kr6WS1HZNA_f_LDFTRTuGCgiD-yCyWzS
 const int amountOfClocksInDigit = 24;
 
 /// Represents the bounds of a digit with a certain index.

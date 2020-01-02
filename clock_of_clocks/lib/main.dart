@@ -14,8 +14,7 @@ import 'clock.dart';
 import 'state/clock_state.dart';
 
 void main() {
-  // A temporary measure until Platform supports web and TargetPlatform supports
-  // macOS.
+  // A temporary measure until Platform supports web and TargetPlatform supports macOS.
   // TODO: Update this when TargetPlatform includes macOS.
   if (!kIsWeb && Platform.isMacOS) {
     // https://github.com/flutter/flutter/issues/31366
