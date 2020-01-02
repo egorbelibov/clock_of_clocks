@@ -1,3 +1,7 @@
+// Copyright 2019 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import '../../helpers/arrangers/clock_group_arranger.dart';
 import '../../models/analog_clock_model.dart';
 import 'clock_hand_arrangements.dart' show ClockHandArrangement;
@@ -7,7 +11,7 @@ import 'clock_hand_arrangements.dart' show ClockHandArrangement;
 /// Represents the states in which the clock hands can be in:
 ///
 /// * [defaultArrangement]: Loop inside a loop effect.
-/// 
+///
 /// **NOTE**: These arrangements don't cover digit representation, but they
 /// could have a certain arrangement which reflects a certain time.
 enum ClockArrangement {
