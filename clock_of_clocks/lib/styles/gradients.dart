@@ -10,6 +10,6 @@ Gradient primaryGradient(BuildContext context) {
       themeBasedColor(context, PaletteColor.primaryGradientColor),
       themeBasedColor(context, PaletteColor.secondaryGradientColor),
     ],
-    stops: [0.4, 1.0],
+    stops: [0.43, 1.0],
   );
 }
