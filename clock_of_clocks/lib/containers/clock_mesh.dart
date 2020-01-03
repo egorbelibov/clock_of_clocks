@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-import '../components/analog_clock.dart';
+import '../containers/analog_clock.dart';
 import '../models/analog_clock_model.dart';
 import '../state/clock_state.dart';
 
