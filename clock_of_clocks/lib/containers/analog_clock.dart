@@ -10,8 +10,8 @@ import '../models/clock_hand_model.dart';
 import '../state/clock_state.dart';
 import '../styles/colors.dart';
 import '../styles/gradients.dart';
-import 'clock_hand.dart';
-import 'clock_label.dart';
+import '../components/clock_hand.dart';
+import '../components/clock_label.dart';
 
 class AnalogClock extends StatefulWidget {
   final int id;
