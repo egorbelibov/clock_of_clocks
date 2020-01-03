@@ -45,7 +45,7 @@ class _AnalogClockState extends State<AnalogClock> {
           analogClock?.label != null
               ? ClockLabel(analogClock.label)
               : Container(),
-          ..._renderClockHands(context),
+          ..._renderClockHands(),
         ],
       ),
     );
@@ -64,14 +64,14 @@ class _AnalogClockState extends State<AnalogClock> {
     assert(clockHands != null);
   }
 
-  List<Widget> _renderClockHands(BuildContext context) {
+  List<Widget> _renderClockHands() {
     return clockHands.map((hand) {
       assert(hand != null);
-      return _renderClockHand(context, hand);
+      return _renderClockHand(hand);
     }).toList();
   }
 
-  Widget _renderClockHand(BuildContext context, ClockHandModel handModel) {
+  Widget _renderClockHand(ClockHandModel handModel) {
     final angleTween = Tween<double>(begin: 0, end: handModel.angle);
     return TweenAnimationBuilder(
       curve: handModel.animationCurve,
