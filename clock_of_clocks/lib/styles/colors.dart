@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:clock_of_clocks_website/app/g_state/theme_essentials.dart';
 import 'package:flutter/material.dart';
 
 enum PaletteColor {
@@ -32,8 +33,14 @@ const darkSecondaryGradientColor = Color(0xFFFFFFFF);
 
 const emptySpaceHandColor = Color(0x507C7C7C);
 
-Color themeBasedColor(BuildContext context, PaletteColor color) {
-  final isLightTheme = Theme.of(context).brightness == Brightness.light;
+Color themeBasedColor(
+  BuildContext context,
+  PaletteColor color, {
+  bool listen = true,
+}) {
+  final Brightness brightness = subscribeToBrigthness(context, listen: listen);
+  final isLightTheme = brightness == Brightness.light;
+
   switch (color) {
     case PaletteColor.primaryColor:
       return isLightTheme ? lightPrimaryColor : darkPrimaryColor;
