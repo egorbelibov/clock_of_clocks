@@ -18,7 +18,7 @@ class ClockLabel extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 10,
+            fontSize: 15,
             fontWeight: FontWeight.w900,
             color: themeBasedColor(context, PaletteColor.labelColor),
           ),
