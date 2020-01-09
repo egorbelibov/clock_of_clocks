@@ -35,6 +35,8 @@ clock_of_clocks/lib/clock.dart
 clock_of_clocks/lib/main.dart
 **flutter_clock_helper/
 
+**.tmp/
+
 # Web related
 lib/generated_plugin_registrant.dart
 

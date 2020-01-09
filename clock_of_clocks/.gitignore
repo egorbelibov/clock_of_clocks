@@ -24,6 +24,8 @@
 .pub/
 /build/
 
+**.tmp/
+
 # Web Project Related
 lib/clock.dart
 lib/main.dart
