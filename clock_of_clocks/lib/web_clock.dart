@@ -13,12 +13,9 @@ class WebClock extends StatelessWidget {
   }
 
   Widget _renderWebClock(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 5 / 3,
-      child: Container(
-        color: themeBasedColor(context, PaletteColor.backgroundColor),
-        child: ClockMesh(), // ClockMesh of analog clocks
-      ),
+    return Container(
+      color: themeBasedColor(context, PaletteColor.backgroundColor),
+      child: ClockMesh(), // ClockMesh of analog clocks
     );
   }
 }
