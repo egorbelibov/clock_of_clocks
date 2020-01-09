@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_clock_helper/model.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 import '../helpers/arrangers/clock_digit_arranger.dart';
@@ -165,10 +164,6 @@ class ClockState extends PropertyChangeNotifier<String> {
         updateClockGroup(clockGroup: digitClocks);
       }
     });
-  }
-
-  void updateModel(ClockModel clockModel) {
-    is24HourFormat = clockModel.is24HourFormat;
   }
 
   /// Updates provided params for [AnalogClockModel] with corresponding [id].

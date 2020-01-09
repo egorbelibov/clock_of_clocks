@@ -24,6 +24,10 @@
 .pub/
 /build/
 
+# Web Project Related
+lib/clock.dart
+lib/main.dart
+
 # Web related
 lib/generated_plugin_registrant.dart
 
