@@ -35,7 +35,7 @@ class _AnalogClockState extends State<AnalogClock> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: themeBasedColor(context, PaletteColor.secondaryColor),
+          color: themeBasedColor(context, PaletteColor.secondaryColor, listen: false),
           width: 1,
         ),
         gradient: primaryGradient(context),
