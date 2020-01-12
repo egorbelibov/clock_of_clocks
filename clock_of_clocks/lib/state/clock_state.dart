@@ -168,7 +168,9 @@ class ClockState extends PropertyChangeNotifier<String> {
   }
 
   void updateModel(ClockModel clockModel) {
-    is24HourFormat = clockModel.is24HourFormat;
+    if (clockModel.is24HourFormat != is24HourFormat) {
+      is24HourFormat = clockModel.is24HourFormat;
+    }
   }
 
   /// Updates provided params for [AnalogClockModel] with corresponding [id].

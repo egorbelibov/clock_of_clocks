@@ -26,7 +26,7 @@ class ClockHand extends StatelessWidget {
         duration: Duration(milliseconds: 1000),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: color ?? themeBasedColor(context, PaletteColor.primaryColor),
+          color: color ?? themeBasedColor(context, PaletteColor.primaryColor, listen: false),
         ),
       ),
     );

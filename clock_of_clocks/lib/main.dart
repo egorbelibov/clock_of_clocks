@@ -4,14 +4,12 @@
 
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:clock_of_clocks/clock_wrapper.dart';
+import 'package:flutter/foundation.dart'
+    show kIsWeb, debugDefaultTargetPlatformOverride;
+import 'package:flutter/widgets.dart';
 import 'package:flutter_clock_helper/customizer.dart';
-import 'package:flutter_clock_helper/model.dart';
-import 'package:property_change_notifier/property_change_notifier.dart';
-
-import 'clock.dart';
-import 'state/clock_state.dart';
+import 'package:flutter_clock_helper/model.dart' show ClockModel;
 
 void main() {
   // A temporary measure until Platform supports web and TargetPlatform supports macOS.
@@ -22,14 +20,8 @@ void main() {
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
 
-  runApp(
-    PropertyChangeProvider<ClockState>(
-      value: ClockState(),
-      child: ClockCustomizer(
-        (ClockModel model) {
-          return Clock(model);
-        },
-      ),
-    ),
-  );
+  Widget clockWrapper;
+  runApp(ClockCustomizer(
+    (ClockModel model) => clockWrapper ??= ClockWrapper(model),
+  ));
 }

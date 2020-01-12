@@ -2,50 +2,35 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:clock_of_clocks/state/clock_state.dart';
+import 'package:clock_of_clocks/state/theme_essentials.dart';
 import 'package:clock_of_clocks/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
-import 'package:property_change_notifier/property_change_notifier.dart';
+import 'extensions/apt_brightness.dart';
 
 import 'containers/clock_mesh.dart';
 
-class Clock extends StatelessWidget {
-  final ClockModel model;
+class Clock extends StatefulWidget {
+  @override
+  _ClockState createState() => _ClockState();
+}
 
-  const Clock(this.model);
+class _ClockState extends State<Clock> {
+  Widget lightClock;
+  Widget darkClock;
 
   @override
   Widget build(BuildContext context) {
-    // Not Mandatory. It's here just to ensure the right orientation is used.
-    setPreferredOrientations();
-
-    // Set model listener - contains info [temperature].
-    model.addListener(() => _updateModel(context));
-    _updateModel(context);
-
-    // Build Clock.
-    return renderWidget(context);
+    final Brightness brightness = subscribeToBrigthness(context);
+    if (brightness.isLight()) {
+      return lightClock ??= buildClock(context);
+    } else {
+      return darkClock ??= buildClock(context);
+    }
   }
 
-  void setPreferredOrientations() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-  }
-
-  void _updateModel(BuildContext context) {
-    PropertyChangeProvider.of<ClockState>(
-      context,
-      listen: false,
-    ).value.updateModel(model);
-  }
-
-  Widget renderWidget(BuildContext context) {
+  Widget buildClock(BuildContext context) {
     final time = DateFormat.Hms().format(DateTime.now());
     return Semantics.fromProperties(
       properties: SemanticsProperties(
@@ -53,7 +38,11 @@ class Clock extends StatelessWidget {
         value: time,
       ),
       child: Container(
-        color: themeBasedColor(context, PaletteColor.backgroundColor),
+        color: themeBasedColor(
+          context,
+          PaletteColor.backgroundColor,
+          listen: false,
+        ),
         child: ClockMesh(), // ClockMesh of analog clocks
       ),
     );
