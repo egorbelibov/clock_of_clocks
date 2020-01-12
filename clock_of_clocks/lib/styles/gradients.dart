@@ -11,8 +11,8 @@ Gradient primaryGradient(BuildContext context) {
     center: const Alignment(0.0, 0.1),
     radius: 1,
     colors: [
-      themeBasedColor(context, PaletteColor.primaryGradientColor),
-      themeBasedColor(context, PaletteColor.secondaryGradientColor),
+      themeBasedColor(context, PaletteColor.primaryGradientColor, listen: false),
+      themeBasedColor(context, PaletteColor.secondaryGradientColor, listen: false),
     ],
     stops: [0.43, 1.0],
   );

@@ -9,13 +9,11 @@ import '../styles/colors.dart';
 class ClockHand extends StatelessWidget {
   final int id;
   final Color color;
-  final double angle;
 
-  ClockHand({
+  const ClockHand({
     @required this.id,
-    @required this.angle,
     this.color,
-  }) : assert(angle != null);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,12 @@ class ClockHand extends StatelessWidget {
         duration: Duration(milliseconds: 1000),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: color ?? themeBasedColor(context, PaletteColor.primaryColor),
+          color: color ??
+              themeBasedColor(
+                context,
+                PaletteColor.primaryColor,
+                listen: false,
+              ),
         ),
       ),
     );

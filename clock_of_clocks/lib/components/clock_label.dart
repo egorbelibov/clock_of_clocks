@@ -7,7 +7,7 @@ import '../styles/colors.dart';
 
 class ClockLabel extends StatelessWidget {
   final String label;
-  ClockLabel(this.label) : assert(label != null);
+  const ClockLabel(this.label) : assert(label != null);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ClockLabel extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w900,
-            color: themeBasedColor(context, PaletteColor.labelColor),
+            color: themeBasedColor(context, PaletteColor.labelColor, listen: false),
           ),
         ),
       ),

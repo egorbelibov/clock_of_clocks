@@ -5,13 +5,13 @@
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
+import '../components/clock_hand.dart';
+import '../components/clock_label.dart';
 import '../models/analog_clock_model.dart';
 import '../models/clock_hand_model.dart';
 import '../state/clock_state.dart';
 import '../styles/colors.dart';
 import '../styles/gradients.dart';
-import '../components/clock_hand.dart';
-import '../components/clock_label.dart';
 
 class AnalogClock extends StatefulWidget {
   final int id;
@@ -26,29 +26,12 @@ class AnalogClock extends StatefulWidget {
 
 class _AnalogClockState extends State<AnalogClock> {
   AnalogClockModel analogClock;
-  List<ClockHandModel> clockHands = [];
+  List<ClockHandModel> clockHandModels = [];
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
     _updateClockState();
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: themeBasedColor(context, PaletteColor.secondaryColor),
-          width: 1,
-        ),
-        gradient: primaryGradient(context),
-      ),
-      child: Stack(
-        children: [
-          analogClock?.label != null
-              ? ClockLabel(analogClock.label)
-              : Container(),
-          ..._renderClockHands(),
-        ],
-      ),
-    );
+    super.didChangeDependencies();
   }
 
   void _updateClockState() {
@@ -60,18 +43,44 @@ class _AnalogClockState extends State<AnalogClock> {
     ).value?.clockMeshModels[widget.id];
     assert(analogClock != null);
 
-    clockHands = analogClock?.clockHands;
-    assert(clockHands != null);
+    clockHandModels = analogClock.clockHands;
+    assert(clockHandModels != null);
   }
 
-  List<Widget> _renderClockHands() {
-    return clockHands.map((hand) {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: themeBasedColor(
+            context,
+            PaletteColor.secondaryColor,
+            listen: false,
+          ),
+          width: 1,
+        ),
+        gradient: primaryGradient(context),
+      ),
+      child: Stack(
+        children: [
+          analogClock?.label != null
+              ? ClockLabel(analogClock.label)
+              : Container(),
+          ..._buildClockHands(),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildClockHands() {
+    return clockHandModels.map((hand) {
       assert(hand != null);
-      return _renderClockHand(hand);
+      return _buildClockHand(hand);
     }).toList();
   }
 
-  Widget _renderClockHand(ClockHandModel handModel) {
+  Widget _buildClockHand(ClockHandModel handModel) {
     final angleTween = Tween<double>(begin: 0, end: handModel.angle);
     return TweenAnimationBuilder(
       curve: handModel.animationCurve,
@@ -81,7 +90,6 @@ class _AnalogClockState extends State<AnalogClock> {
         alignment: Alignment.centerRight,
         child: ClockHand(
           id: handModel.id,
-          angle: handModel.angle,
           color: handModel.color,
         ),
       ),

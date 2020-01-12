@@ -2,8 +2,12 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:clock_of_clocks_website/app/g_state/theme_essentials.dart';
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
+import 'package:clock_of_clocks/state/theme_essentials.dart';
+import 'package:flutter/widgets.dart';
+
+import '../extensions/apt_brightness.dart';
 
 enum PaletteColor {
   primaryColor,
@@ -18,16 +22,20 @@ enum PaletteColor {
 const lightPrimaryColor = Color(0xFF000000);
 const lightSecondaryColor = Color(0x20252525);
 const lightTertiaryColor = Color(0xFFFE1212);
+
 const lightLabelColor = Color(0x50252525);
 const lightBackgroundColor = Color(0xFFFFFFFF);
+
 const lightPrimaryGradientColor = Color(0xFFFFFFFF);
 const lightSecondaryGradientColor = Color(0xFF000000);
 
 const darkPrimaryColor = Color(0xFFFFFFFF);
 const darkSecondaryColor = Color(0x20DADADA);
 const darkTertiaryColor = Color(0xFFFE1212);
+
 const darkLabelColor = Color(0x75DADADA);
 const darkBackgroundColor = Color(0xFF000000);
+
 const darkPrimaryGradientColor = Color(0xFF000000);
 const darkSecondaryGradientColor = Color(0xFFFFFFFF);
 
@@ -39,28 +47,24 @@ Color themeBasedColor(
   bool listen = true,
 }) {
   final Brightness brightness = subscribeToBrigthness(context, listen: listen);
-  final isLightTheme = brightness == Brightness.light;
+  final isLight = brightness.isLight();
 
   switch (color) {
     case PaletteColor.primaryColor:
-      return isLightTheme ? lightPrimaryColor : darkPrimaryColor;
+      return isLight ? lightPrimaryColor : darkPrimaryColor;
     case PaletteColor.secondaryColor:
-      return isLightTheme ? lightSecondaryColor : darkSecondaryColor;
+      return isLight ? lightSecondaryColor : darkSecondaryColor;
     case PaletteColor.tertiaryColor:
-      return isLightTheme ? lightTertiaryColor : darkTertiaryColor;
+      return isLight ? lightTertiaryColor : darkTertiaryColor;
     case PaletteColor.labelColor:
-      return isLightTheme ? lightLabelColor : darkLabelColor;
+      return isLight ? lightLabelColor : darkLabelColor;
     case PaletteColor.backgroundColor:
-      return isLightTheme ? lightBackgroundColor : darkBackgroundColor;
+      return isLight ? lightBackgroundColor : darkBackgroundColor;
     case PaletteColor.primaryGradientColor:
-      return isLightTheme
-          ? lightPrimaryGradientColor
-          : darkPrimaryGradientColor;
+      return isLight ? lightPrimaryGradientColor : darkPrimaryGradientColor;
     case PaletteColor.secondaryGradientColor:
-      return isLightTheme
-          ? lightSecondaryGradientColor
-          : darkSecondaryGradientColor;
+      return isLight ? lightSecondaryGradientColor : darkSecondaryGradientColor;
     default:
-      return isLightTheme ? Colors.black : Colors.white;
+      return isLight ? Color(0xFF000000) : Color(0xFFFFFFFF);
   }
 }
