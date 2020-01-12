@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 
 class ClockLabel extends StatelessWidget {
   final String label;
-  ClockLabel(this.label) : assert(label != null);
+  const ClockLabel(this.label) : assert(label != null);
 
   @override
   Widget build(BuildContext context) {

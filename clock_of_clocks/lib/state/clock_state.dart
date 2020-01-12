@@ -19,16 +19,18 @@ import 'arrangements/clock_bit_arrangements.dart';
 
 /// Total amount of analog clocks drawn on screen.
 ///
-/// Image graphic of the clock mesh:
-/// https://drive.google.com/open?id=1n0gspZDl4CCM1Uak-gC4WQisSje9mJUX
+/// Image graphic of the clock mesh arrangement:
+///
+/// ![image](https://github.com/egorbelibov/github_assets/blob/master/clock_of_clocks/images/clock_mesh.png?raw=true)
 ///
 /// **IMPORTANT**: Shouldn't be changed! (Unless you know what you're doing 😀).
 const int amountOfClocks = 120;
 
 /// Total amount of digits displayed on screen.
 ///
-/// Image graphic of showing each separated digit:
-/// https://drive.google.com/open?id=1n0gspZDl4CCM1Uak-gC4WQisSje9mJUX
+/// Image graphic of a digit's arrangement:
+///
+/// ![image](https://github.com/egorbelibov/github_assets/blob/master/clock_of_clocks/images/clocks_inside_a_digit.png?raw=true)
 ///
 /// **IMPORTANT**: Shouldn't be changed! (Unless you know what you're doing 😀).
 const int amountOfDigits = 4;
@@ -70,7 +72,7 @@ class ClockState extends PropertyChangeNotifier<String> {
   /// - [58]: minute progress (1..60s).
   /// - [59]: hour progress (1..60m).
   /// - [60]: day progress (1..24h).
-  /// - [61]: month progress (1..365d).
+  /// - [61]: month progress (1..31d).
   ///
   /// All have a default value of (3 * pi / 2) which represents the intuitive value
   /// of the 12 o'clock mark on an analog clock ([Direction.north]).

@@ -20,8 +20,8 @@ void main() {
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
 
-  Widget clockWrapper;
+  Widget _clockWrapper;
   runApp(ClockCustomizer(
-    (ClockModel model) => clockWrapper ??= ClockWrapper(model),
+    (ClockModel model) => _clockWrapper ??= ClockWrapper(model),
   ));
 }
