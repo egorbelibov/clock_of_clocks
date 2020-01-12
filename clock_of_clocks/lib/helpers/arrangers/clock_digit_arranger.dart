@@ -10,8 +10,9 @@ import '../../state/clock_state.dart' show amountOfDigits;
 
 /// Represents the amount of clocks in a digit section.
 ///
-/// Image of the 24 clock grid representing a digit: 
-/// https://drive.google.com/open?id=1Kr6WS1HZNA_f_LDFTRTuGCgiD-yCyWzS
+/// Image of the 24 clock grid representing a digit:
+/// 
+/// ![image](https://github.com/egorbelibov/github_assets/blob/master/clock_of_clocks/images/clocks_inside_a_digit.png?raw=true)
 const int amountOfClocksInDigit = 24;
 
 /// Represents the bounds of a digit with a certain index.

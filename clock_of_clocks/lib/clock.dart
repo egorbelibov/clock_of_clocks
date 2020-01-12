@@ -7,9 +7,9 @@ import 'package:clock_of_clocks/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:intl/intl.dart';
-import 'extensions/apt_brightness.dart';
 
 import 'containers/clock_mesh.dart';
+import 'extensions/apt_brightness.dart';
 
 class Clock extends StatefulWidget {
   @override
@@ -43,7 +43,7 @@ class _ClockState extends State<Clock> {
           PaletteColor.backgroundColor,
           listen: false,
         ),
-        child: ClockMesh(), // ClockMesh of analog clocks
+        child: ClockMesh(), // ClockMesh of [AnalogClock]'s
       ),
     );
   }

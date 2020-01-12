@@ -38,8 +38,9 @@ class _ClockWrapperState extends State<ClockWrapper> {
     // Not Mandatory. It's here just to ensure the right orientation is used.
     _setPreferredOrientations();
 
-    // Doesn't need to 
+    _clockState?.is24HourFormat = widget.model?.is24HourFormat;
     widget.model.addListener(() => _clockState?.updateModel(widget.model));
+
     super.initState();
   }
 
