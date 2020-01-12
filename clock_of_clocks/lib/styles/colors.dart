@@ -4,10 +4,10 @@
 
 import 'dart:ui';
 
-import 'package:clock_of_clocks/state/theme_essentials.dart';
 import 'package:flutter/widgets.dart';
-
 import '../extensions/apt_brightness.dart';
+import '../state/theme_essentials.dart'
+    show subscribeToBrigthness;
 
 enum PaletteColor {
   primaryColor,

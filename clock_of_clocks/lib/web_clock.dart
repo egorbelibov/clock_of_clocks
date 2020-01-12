@@ -5,16 +5,35 @@
 import 'package:flutter/material.dart';
 import 'containers/clock_mesh.dart';
 import 'styles/colors.dart';
+import 'state/theme_essentials.dart';
+import 'extensions/apt_brightness.dart';
 
-class WebClock extends StatelessWidget {
+class WebClock extends StatefulWidget {
+  @override
+  _WebClockState createState() => _WebClockState();
+}
+
+class _WebClockState extends State<WebClock> {
+  Widget _lightClock;
+  Widget _darkClock;
+
   @override
   Widget build(BuildContext context) {
-    return _renderWebClock(context);
+    final Brightness brightness = subscribeToBrigthness(context);
+    if (brightness.isLight()) {
+      return _lightClock ??= _buildWebClock(context);
+    } else {
+      return _darkClock ??= _buildWebClock(context);
+    }
   }
 
-  Widget _renderWebClock(BuildContext context) {
+  Widget _buildWebClock(BuildContext context) {
     return Container(
-      color: themeBasedColor(context, PaletteColor.backgroundColor),
+      color: themeBasedColor(
+        context,
+        PaletteColor.backgroundColor,
+        listen: false,
+      ),
       child: ClockMesh(), // ClockMesh of analog clocks
     );
   }
