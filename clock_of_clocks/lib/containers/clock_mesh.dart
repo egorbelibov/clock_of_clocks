@@ -42,21 +42,21 @@ class _ClockMeshState extends State<ClockMesh> {
     return Center(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.8,
-        child: _renderGridView(),
+        child: _buildGridView(),
       ),
     );
   }
 
-  Widget _renderGridView() {
+  Widget _buildGridView() {
     return GridView.count(
       shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       crossAxisCount: 8,
-      children: _renderClocks(),
+      children: _buildClocks(),
     );
   }
 
-  List<Widget> _renderClocks() {
+  List<Widget> _buildClocks() {
     return _analogClocks.map((analogClockData) {
       // Safety check (shouldn't happen).
       return analogClockData == null

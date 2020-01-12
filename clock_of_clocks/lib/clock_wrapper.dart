@@ -31,15 +31,16 @@ class _ClockWrapperState extends State<ClockWrapper> {
   final ClockState _clockState = ClockState();
 
   /// Holds the entire clock app and its providers.
-  Widget clock;
+  Widget _clock;
 
   @override
   void initState() {
     // Not Mandatory. It's here just to ensure the right orientation is used.
     _setPreferredOrientations();
 
-    // Doesn't need to 
+    _clockState?.is24HourFormat = widget.model?.is24HourFormat;
     widget.model.addListener(() => _clockState?.updateModel(widget.model));
+
     super.initState();
   }
 
@@ -51,7 +52,7 @@ class _ClockWrapperState extends State<ClockWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return clock ??= _buildClock();
+    return _clock ??= _buildClock();
   }
 
   @override
@@ -65,7 +66,7 @@ class _ClockWrapperState extends State<ClockWrapper> {
       value: _themeEssentials,
       child: PropertyChangeProvider<ClockState>(
         value: _clockState,
-        child: clock ??= Clock(),
+        child: _clock ??= Clock(),
       ),
     );
   }
