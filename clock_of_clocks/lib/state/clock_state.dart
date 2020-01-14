@@ -1,3 +1,4 @@
+
 // Copyright 2019 Egor Belibov. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -215,5 +216,23 @@ class ClockState extends PropertyChangeNotifier<String> {
 
       if (notifyChanges) notifyListeners(clockModel.id.toString());
     });
+  }
+
+  // -----------------------
+
+  /// **IMPORTANT**: DEV-ONLY
+  ///
+  /// **IMPORTANT**: Don't you dare publish this! (Unless you know what you're doing 😀).
+  void activateSonicMode() {
+    _currentTime = (_currentTime == null)
+        ? DateTime.utc(2020, 01, 01, 15, 00, 00)
+        : _currentTime.add(Duration(seconds: 1));
+
+    _timer = Timer(
+      Duration(milliseconds: 50),
+      _updateTime,
+    );
+
+    _updateClockTimeState();
   }
 }
